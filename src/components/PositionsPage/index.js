@@ -134,7 +134,6 @@ const PositionPage = props => {
   const menuVisible = () => {
     return props.match.params.pageId !== undefined && group !== "complete";
   };
-
   return (
     <App>
       <Helmet>
@@ -164,11 +163,13 @@ const PositionPage = props => {
                   total={positionContext.availableGroups.length}
                   nextPage={nextPage}
                   notice="* indicates required field"
+                  {...props}
                 >
                   <Questions
                     group={group}
                     questions={questions.questions}
                     answersGroup={positionContext[group]}
+                    {...props}
                   />
                 </QuestionsGroup>
               )}
@@ -179,6 +180,7 @@ const PositionPage = props => {
                   total={positionContext.availableGroups.length}
                   nextPage={nextPage}
                   notice="Please provide information for the last two years of your employment"
+                  {...props}
                 >
                   <WorkHistoryGroup />
                 </QuestionsGroup>
@@ -190,6 +192,7 @@ const PositionPage = props => {
                   total={positionContext.availableGroups.length}
                   nextPage={nextPage}
                   notice="Please provide three personal references"
+                  {...props}
                 >
                   <PersonalRefsGroup />
                 </QuestionsGroup>
@@ -201,6 +204,7 @@ const PositionPage = props => {
                   total={positionContext.availableGroups.length}
                   nextPage={nextPage}
                   notice="Please provide your educational history, starting with high school"
+                  {...props}
                 >
                   <EduHistoryGroup />
                 </QuestionsGroup>
@@ -212,6 +216,7 @@ const PositionPage = props => {
                   total={positionContext.availableGroups.length}
                   nextPage={nextPage}
                   notice="What days and times are you available? Please select all that apply:"
+                  {...props}
                 >
                   <ShiftTimes />
                 </QuestionsGroup>
@@ -220,6 +225,8 @@ const PositionPage = props => {
                 <Finish
                   percentage={percentageComplete}
                   total={positionContext.availableGroups.length}
+                  nextPage={nextPage}
+                  {...props}
                 />
               )}
               {group === "complete" && <Complete />}

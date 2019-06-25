@@ -52,7 +52,7 @@ const Finish = props => {
         <Buttons
           color={white}
           bgColor={jaBlue}
-          onClick={positionContext.submitApplication}
+          onClick={() => positionContext.submitApplication(props.nextPage)}
         >
           SUBMIT
         </Buttons>
