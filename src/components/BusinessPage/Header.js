@@ -4,11 +4,9 @@ import { dark, jaBlue } from "../../constants/colors";
 import { media } from "../../constants/mediaQueries";
 const Container = styled.div`
   width: 100%;
-  ${media.desktop`
-    display: flex;
-    flex-direction: column;  
-    align-items: center;
-  `};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 const TopBar = styled.div`
   width: 100%;
@@ -32,20 +30,15 @@ const BusinessDetails = styled.div`
   `}
 `;
 
-const LogoContainer = styled.div`
-  width: 100%;
+const LogoContainer = styled.img`
   min-width: 83px;
-  max-width: 300px;
-  height: 150px;
-  background-image: ${props => `url(${props.image})`};
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 40px;
+  padding-left: 20px;
+  object-fit: contain;
   ${media.desktop`
-    width: 500px;
-    height: 250px;
-    border: none;
-    border-radius: 0px;
+    max-width: 500px;
   `}
 `;
 
@@ -105,7 +98,7 @@ const Header = props => (
     <TopBar />
     <BusinessDetails>
       {props.business.image_url && (
-        <LogoContainer image={props.business.image_url} />
+        <LogoContainer src={props.business.image_url} />
       )}
       {/* <img src={props.business.image_url} /> */}
       <DetailsContainer>
