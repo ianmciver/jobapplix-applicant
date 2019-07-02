@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { API_URL } from "../constants/urls";
+import { withRouter } from "react-router-dom";
 
 export const PositionContext = React.createContext({
   details: {},
@@ -266,7 +267,7 @@ const PositionContextComponent = props => {
     setAvailableGroups(groupsWithQuestions);
   };
 
-  const submitApplication = () => {
+  const submitApplication = completeURL => {
     // iterate over each group
     const answers = [];
     const getAnswers = group => {
@@ -327,7 +328,11 @@ const PositionContextComponent = props => {
         },
         body: JSON.stringify(application)
       }
-    ).then();
+    )
+      .then(() => {
+        props.history.push(completeURL);
+      })
+      .catch(err => {});
   };
 
   return (
@@ -384,4 +389,4 @@ const PositionContextComponent = props => {
   );
 };
 
-export default PositionContextComponent;
+export default withRouter(PositionContextComponent);

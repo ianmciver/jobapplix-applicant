@@ -34,7 +34,7 @@ const Complete = props => {
   return (
     <CompleteContainer>
       <Info>SUCCESS! YOUR APPLICATION IS COMPLETE!</Info>
-      <Link to={`/${props.router.query.business}`}>
+      <Link to={`/${props.match.params.business}`}>
         <Button>BACK TO POSITIONS</Button>
       </Link>
     </CompleteContainer>
