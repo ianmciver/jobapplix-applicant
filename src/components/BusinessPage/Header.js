@@ -87,6 +87,7 @@ const BusinessDescription = styled.p`
   margin-top: 10px;
   font-size: 1.2rem;
   line-height: 1.6rem;
+  white-space: pre-line;
   ${media.desktop`
     line-height: 2.2rem;
     text-align: center;

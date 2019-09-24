@@ -28,6 +28,7 @@ const DescriptionDetails = styled.p`
   font-size: 1.2rem;
   line-height: 1.7rem;
   flex-grow: 1;
+  white-space: pre-line;
 `;
 
 const GetStartedButton = styled.button`

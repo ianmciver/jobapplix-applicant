@@ -72,6 +72,7 @@ typings/
 
 # production
 /build
+./build
 
 # misc
 .DS_Store
@@ -88,3 +89,7 @@ yarn-error.log*
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+# Netlify 
+
+.netlify
