@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const app = express();
 
+// Redirect to https if not using it.
 app.use(function(req, res, next) {
   if (req.get("Host") === "localhost:3000") {
     next();
@@ -18,5 +19,5 @@ app.get("/*", function(req, res) {
 });
 
 app.listen(3000, () => {
-  console.log("THis is what I'm talking about", __dirname);
+  console.log("Server running on Port 3000");
 });
