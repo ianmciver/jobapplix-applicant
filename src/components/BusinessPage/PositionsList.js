@@ -1,83 +1,107 @@
 import React from "react";
-
-import { Link } from "react-router-dom";
-
+import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-import {
-  jaBlue,
-  positionsBorder,
-  positionsBackground
-} from "../../constants/colors";
+import { media } from "../../constants/mediaQueries";
 
-const PositionsListContainer = styled.div`
+export const PositionsListContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  margin-bottom: 30px;
+  margin: 30px 0;
   width: 100%;
-  max-width: 700px;
+  max-width: 760px;
 `;
 
 const PositionHeader = styled.div`
-  width: 100%;
+  width: calc(100%-40px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   padding: 40px 0 30px;
-
+  border-bottom: 1px solid ${props => props.theme.positionsBorder};
+  margin: 0 20px;
   h2 {
-    font-size: 2.3rem;
-    font-weight: 700;
+    font-size: 2.6rem;
   }
 
-  h3 {
-    font-size: 1.3rem;
-    font-weight: 700;
-  }
+  ${media.desktop`
+    width: 100%;
+    margin: 0;
+    padding: 40px 0 30px;
+  `};
 `;
 
 const Position = styled.li`
   width: 100%;
-  padding: 20px 50px;
-  border-top: 1px solid ${positionsBorder};
+  padding: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   h3 {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
+    ${media.desktop`
+      font-size: 2.4rem;
+    `}
   }
 
-  a {
-    color: ${jaBlue};
-    font-size: 1.6rem;
+  ${media.desktop`
+    padding: 20px 0;
+  `}
+`;
+
+const ApplyButton = styled.button`
+  display: inline-block;
+  padding: 8px 11px;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  border: 0;
+  border-radius: 5px;
+  letter-spacing: 2px;
+  outline: none;
+  background-color: #4dd0e1;
+  background-image: linear-gradient(
+    to right,
+    ${props => props.theme.backgroundBlue},
+    ${props => props.theme.backgroundGreen}
+  );
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  &:hover {
+    background-image: none;
+    background-color: ${props => props.theme.backgroundBlue};
+  }
+  &:disabled {
+    background-image: none;
+    background-color: ${props => props.theme.backgroundWhite};
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.1);
+    cursor: not-allowed;
   }
 
-  &:nth-child(odd) {
-    background-color: ${positionsBackground};
-  }
-
-  &:last-child {
-    border-bottom: 1px solid ${positionsBorder};
-  }
+  ${media.desktop`
+    font-size: 1.4rem;
+    padding: 10px 14px;
+  `}
 `;
 
 const PositionsList = props => {
+  const applyClick = positionId => e => {
+    props.history.push(`/${props.businessName}/${positionId}`);
+  };
   return (
     <PositionsListContainer>
       <PositionHeader>
-        <h2>OPEN POSITIONS</h2>
+        <h2>Open Positions:</h2>
       </PositionHeader>
       <ul>
         {props.positions.map(position => {
           return (
             <Position key={position.id}>
               <h3>{position.name}</h3>
-              <Link to={`/${props.businessName}/${position.id}`}>
-                <p>Apply</p>
-              </Link>
+              <ApplyButton onClick={applyClick(position.id)}>
+                Apply &rarr;
+              </ApplyButton>
             </Position>
           );
         })}
@@ -90,4 +114,4 @@ PositionsList.defaultProps = {
   positions: []
 };
 
-export default PositionsList;
+export default withRouter(PositionsList);

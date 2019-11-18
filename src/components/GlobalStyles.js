@@ -148,6 +148,20 @@ const GlobalStyles = createGlobalStyle`
   @font-face {
     font-family: "Montserrat";
     font-style: normal;
+    font-weight: 500;
+    src: local("Montserrat Medium"), local("Montserrat-Medium"),
+      url("/static/fonts/montserrat_medium.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 600;
+    src: local("Montserrat SemiBold"), local("Montserrat-SemiBold"),
+      url("/static/fonts/montserrat_SemiBold.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "Montserrat";
+    font-style: normal;
     font-weight: 700;
     src: local("Montserrat Bold"), local("Montserrat-Bold"),
       url("/static/fonts/montserrat_bold.ttf") format("truetype");
