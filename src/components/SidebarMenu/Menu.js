@@ -8,7 +8,10 @@ import { positionsBorder } from "../../constants/colors";
 
 const MenuContainer = styled.div`
   border-right: 1px solid ${positionsBorder};
+  position: fixed;
+  margin-top: 80px;
   display: none;
+  height: 100%;
   ${media.desktop`
     ${props => {
       return props.visible

@@ -5,31 +5,39 @@ import { dark, white, jaBlue, lightBorder } from "../../constants/colors";
 import { media } from "../../constants/mediaQueries";
 const HeaderContainer = styled.div`
   width: 100%;
-  padding: 10px 50px;
-  background-color: ${dark};
-  display: flex;
-  align-items: center;
-  border-bottom: 4px solid ${jaBlue};
-  ${media.desktop`justify-content: center;`};
+  background-color: #fff;
+  position: fixed;
 `;
 
-const BusinessImage = styled.div`
-  width: 200px;
+const BusinessImageContainer = styled.div`
+  width: 100%;
+  max-width: 760px;
+  padding: 15px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  ${media.desktop`
+    padding: 15px 0;
+  `}
+`;
 
-  height: 100px;
-  /* border: 1px solid ${lightBorder}; */
-  /* border-radius: 50%; */
-  background-image: ${props => `url(${props.image})`};
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  margin-right: 20px;
+const BusinessImage = styled.img`
+  object-fit: contain;
+  max-height: 30px;
+  width: auto;
+  max-width: 290px;
+  ${media.desktop`
+    max-height: 50px;
+    max-width: 760px;
+  `};
 `;
 
 const PositionAndBusinessName = styled.div`
   display: flex;
   flex-direction: column;
-  color: ${white};
+  color: ${props => props.theme.dark};
   h1 {
     font-size: 2.1rem;
     text-transform: uppercase;
@@ -42,14 +50,21 @@ const PositionAndBusinessName = styled.div`
   }
 `;
 
+const PositionTitle = styled.h2`
+  font-size: 1.8rem;
+  color: ${props => props.theme.title};
+  ${media.desktop`
+    font-size: 2.4rem;
+  `};
+`;
+
 const Header = props => {
   return (
     <HeaderContainer>
-      <BusinessImage image={props.business.image_url} />
-      <PositionAndBusinessName>
-        <h1>{props.positionName}</h1>
-        <h2>{props.business.name}</h2>
-      </PositionAndBusinessName>
+      <BusinessImageContainer>
+        <BusinessImage src={props.business.image_url} />
+        <PositionTitle>{props.positionName}</PositionTitle>
+      </BusinessImageContainer>
     </HeaderContainer>
   );
 };

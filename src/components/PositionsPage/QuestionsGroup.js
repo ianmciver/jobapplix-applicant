@@ -6,14 +6,16 @@ import styled from "styled-components";
 import { media } from "../../constants/mediaQueries";
 import { dark, jaBlue, white } from "../../constants/colors";
 
+import { ApplyButton } from "../BusinessPage/PositionsList";
+
 export const GroupContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 700px;
-  margin: 0 auto;
+  margin: 50px auto;
   ${media.desktop`
-    margin-top: 50px;
+    margin-top: 130px;
   `};
 `;
 
@@ -55,10 +57,18 @@ export const Buttons = styled.button`
   background-color: ${props => props.bgColor && props.bgColor};
   font-size: 1.3rem;
   padding: 15px 32px;
-  border: 2px solid ${dark};
+  border: 2px solid ${props => props.theme.dark};
   border-radius: 24px;
   outline: none;
   cursor: pointer;
+`;
+
+const PreviousButton = styled(ApplyButton)`
+  background-image: none;
+  background-color: ${props => props.theme.subTitle};
+  &:hover {
+    background-color: ${props => props.theme.title};
+  }
 `;
 
 const QuestionsGroup = props => {
@@ -74,18 +84,12 @@ const QuestionsGroup = props => {
         {props.children}
       </QuestionsContainer>
       <ButtonsGroup>
-        <Buttons
-          color={dark}
-          bgColor={white}
-          onClick={e => props.history.goBack()}
-        >
-          PREVIOUS
-        </Buttons>
-        <Link to={props.nextPage}>
-          <Buttons color={white} bgColor={jaBlue}>
-            SAVE & NEXT
-          </Buttons>
-        </Link>
+        <PreviousButton onClick={e => props.history.goBack()}>
+          &larr; PREVIOUS
+        </PreviousButton>
+        <ApplyButton onClick={e => props.history.push(props.nextPage)}>
+          SAVE & NEXT &rarr;
+        </ApplyButton>
       </ButtonsGroup>
     </GroupContainer>
   );

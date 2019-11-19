@@ -4,54 +4,52 @@ import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 
 import { media } from "../../constants/mediaQueries";
-import { jaBlue, dark, white } from "../../constants/colors";
 
 import { PositionContext } from "../../context/PositionContext";
+
+import { ApplyButton } from "../BusinessPage/PositionsList";
 
 const DescriptionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
-  max-width: 700px;
+  margin: 70px 20px 20px;
+  width: 100%;
+  max-width: 760px;
   h1 {
-    font-size: 1.6rem;
+    font-size: 2.4rem;
+    color: ${props => props.theme.title};
   }
   ${media.desktop`
-    margin: 50px auto 0;
-    
+    margin: 130px auto 0;
   `};
 `;
 
 const DescriptionDetails = styled.p`
-  margin: 30px;
-  font-size: 1.2rem;
-  line-height: 1.7rem;
+  margin: 30px 0;
+  font-size: 1.5rem;
+  line-height: 2rem;
   flex-grow: 1;
   white-space: pre-line;
+  color: ${props => props.theme.title};
 `;
 
-const GetStartedButton = styled.button`
-  background-color: ${jaBlue};
-  border: 2px solid ${dark};
-  color: ${white};
-  margin-bottom: 20px;
-  height: 50px;
-  width: 187px;
-  border-radius: 25px;
-  font-size: 1.3rem;
-  outline: none;
+const NextButton = styled(ApplyButton)`
+  ${media.desktop`
+    align-self: flex-end;
+    margin-bottom: 20px;
+  `};
 `;
 
 const Description = props => {
   const { details } = useContext(PositionContext);
+  const nextStep = () => {
+    props.history.push(props.nextPage);
+  };
   return (
     <DescriptionContainer>
-      <h1>DESCRIPTION</h1>
+      <h1>About the Position:</h1>
       <DescriptionDetails>{details.description}</DescriptionDetails>
-      <Link to={props.nextPage}>
-        <GetStartedButton>GET STARTED</GetStartedButton>
-      </Link>
+      <NextButton onClick={nextStep}>GET STARTED &rarr;</NextButton>
     </DescriptionContainer>
   );
 };

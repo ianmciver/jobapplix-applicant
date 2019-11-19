@@ -22,6 +22,7 @@ const PositionHeader = styled.div`
   margin: 0 20px;
   h2 {
     font-size: 2.6rem;
+    color: ${props => props.theme.title};
   }
 
   ${media.desktop`
@@ -31,25 +32,7 @@ const PositionHeader = styled.div`
   `};
 `;
 
-const Position = styled.li`
-  width: 100%;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  h3 {
-    font-size: 1.8rem;
-    ${media.desktop`
-      font-size: 2.4rem;
-    `}
-  }
-
-  ${media.desktop`
-    padding: 20px 0;
-  `}
-`;
-
-const ApplyButton = styled.button`
+export const ApplyButton = styled.button`
   display: inline-block;
   padding: 8px 11px;
   font-size: 1.2rem;
@@ -85,6 +68,35 @@ const ApplyButton = styled.button`
   `}
 `;
 
+const Position = styled.li`
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  h3 {
+    font-size: 1.8rem;
+    ${media.desktop`
+      font-size: 2.4rem;
+    `}
+  }
+
+  ${media.desktop`
+    padding: 20px 0;
+  `}
+
+  &:hover {
+    h3 {
+      color: ${props => props.theme.backgroundBlue};
+    }
+    ${ApplyButton} {
+      background-image: none;
+      background-color: ${props => props.theme.backgroundBlue};
+    }
+  }
+`;
+
 const PositionsList = props => {
   const applyClick = positionId => e => {
     props.history.push(`/${props.businessName}/${positionId}`);
@@ -97,11 +109,9 @@ const PositionsList = props => {
       <ul>
         {props.positions.map(position => {
           return (
-            <Position key={position.id}>
+            <Position key={position.id} onClick={applyClick(position.id)}>
               <h3>{position.name}</h3>
-              <ApplyButton onClick={applyClick(position.id)}>
-                Apply &rarr;
-              </ApplyButton>
+              <ApplyButton>Apply &rarr;</ApplyButton>
             </Position>
           );
         })}

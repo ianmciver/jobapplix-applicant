@@ -24,7 +24,7 @@ const MenuItemContainer = styled.div`
 const Pointer = styled.div`
   position: absolute;
   top: 0;
-  left: 206px;
+  left: 200.4px;
   border-left: 26px solid ${jaBlue};
   border-top: 26px solid transparent;
   border-bottom: 26px solid transparent;
@@ -48,9 +48,7 @@ const titles = {
 const MenuItem = props => {
   return (
     <Link
-      to={`/${props.match.params.business}/${props.match.params.position}/${
-        props.index
-      }`}
+      to={`/${props.match.params.business}/${props.match.params.position}/${props.index}`}
       style={{ textDecoration: "none" }}
     >
       <MenuItemContainer selected={props.selected}>

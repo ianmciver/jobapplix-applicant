@@ -65,9 +65,7 @@ const PositionPage = props => {
   const getPosition = async () => {
     try {
       const positionRes = await fetch(
-        `${API_URL}/businesses/position?id=${
-          props.match.params.position
-        }&businessUrl=${props.match.params.business}`
+        `${API_URL}/businesses/position?id=${props.match.params.position}&businessUrl=${props.match.params.business}`
       );
 
       await checkStatus(positionRes);

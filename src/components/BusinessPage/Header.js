@@ -30,7 +30,7 @@ const Logo = styled.img`
   object-fit: contain;
   max-height: ${props => (props.scrolled ? "50px" : "100px")};
   width: auto;
-  max-width: 320px;
+  max-width: 290px;
   margin: 0 auto;
   transition: max-height 300ms linear;
   ${media.desktop`
