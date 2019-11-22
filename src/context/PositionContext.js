@@ -94,6 +94,7 @@ const PositionContextComponent = props => {
   };
 
   const [availableGroups, setAvailableGroups] = useState([]);
+  const [visitedGroups, setVisitedGroups] = useState({});
   const [basicGroup, setBasicGroup] = useState({});
   const [positionGroup, setPositionGroup] = useState({});
   const [historyGroup, setHistoryGroup] = useState({});
@@ -199,9 +200,11 @@ const PositionContextComponent = props => {
       personalRefs: position.personal_references
     });
     let groupsWithQuestions = [];
+    let visitedGroup = {};
     position.questions.forEach(async questionsGroup => {
       if (questionsGroup.questions.length > 0) {
         groupsWithQuestions.push(questionsGroup.groupName);
+        visitedGroup[questionsGroup.groupName] = false;
 
         let setGroup;
         switch (questionsGroup.groupName) {
@@ -240,7 +243,11 @@ const PositionContextComponent = props => {
           let defaultSubValue = question.sub_type === "text" ? "" : false;
           return {
             ...obj,
-            [question.id]: { value: defaultValue, subValue: defaultSubValue }
+            [question.id]: {
+              value: defaultValue,
+              subValue: defaultSubValue,
+              required: question.is_required
+            }
           };
         }, {});
         await setGroup(newQuestions);
@@ -248,23 +255,28 @@ const PositionContextComponent = props => {
     });
     if (position.availability) {
       groupsWithQuestions.push("availability");
+      visitedGroup["availability"] = false;
     }
     // Shift times
     if (position.work_history) {
       groupsWithQuestions.push("workHistory");
+      visitedGroup["workHistory"] = false;
     }
 
     if (position.personal_refs) {
       groupsWithQuestions.push("personalRefs");
+      visitedGroup["personalRefs"] = false;
     }
 
     if (position.educational_history) {
       groupsWithQuestions.push("eduHistory");
+      visitedGroup["eduHistory"] = false;
     }
 
     groupsWithQuestions.push("finish");
-    groupsWithQuestions.push("complete");
+    visitedGroup["finish"] = false;
     setAvailableGroups(groupsWithQuestions);
+    setVisitedGroups(visitedGroup);
   };
 
   const submitApplication = completeURL => {
@@ -318,9 +330,7 @@ const PositionContextComponent = props => {
       availability: shiftTimesAnswers
     };
     fetch(
-      `${API_URL}/apps/application?pid=${details.id}&bid=${
-        details.business_id
-      }`,
+      `${API_URL}/apps/application?pid=${details.id}&bid=${details.business_id}`,
       {
         method: "POST",
         headers: {
@@ -333,6 +343,10 @@ const PositionContextComponent = props => {
         props.history.push(completeURL);
       })
       .catch(err => {});
+  };
+
+  const changeVisitedGroup = group => {
+    setVisitedGroups({ ...visitedGroups, [group]: true });
   };
 
   return (
@@ -369,6 +383,7 @@ const PositionContextComponent = props => {
           changeHandler: changeHandler(customGroup, setCustomGroup)
         },
         availableGroups,
+        visitedGroups,
         workHist,
         eduHist,
         personalRefs,
@@ -381,7 +396,8 @@ const PositionContextComponent = props => {
         updateShiftTimesAnswer,
         updateAllShiftTimesAnswer,
         submitApplication,
-        questions
+        questions,
+        changeVisitedGroup
       }}
     >
       {props.children}

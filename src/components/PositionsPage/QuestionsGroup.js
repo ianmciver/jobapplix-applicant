@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { withRouter, Link } from "react-router-dom";
 import ProgressBar from "./ProgressBar";
 import styled from "styled-components";
 
 import { media } from "../../constants/mediaQueries";
-import { dark, jaBlue, white } from "../../constants/colors";
+import { PositionContext } from "../../context/PositionContext";
 
 import { ApplyButton } from "../BusinessPage/PositionsList";
 
@@ -72,6 +72,10 @@ const PreviousButton = styled(ApplyButton)`
 `;
 
 const QuestionsGroup = props => {
+  const positionContext = useContext(PositionContext);
+  if (!positionContext.visitedGroups[props.group]) {
+    positionContext.changeVisitedGroup(props.group);
+  }
   return (
     <GroupContainer>
       <ProgressBar

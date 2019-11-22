@@ -1,9 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { fetch } from "whatwg-fetch";
 import Helmet from "react-helmet";
 import { Route } from "react-router-dom";
-// import ErrorPage from "next/error";
 import styled from "styled-components";
+
+import { media } from "../../constants/mediaQueries";
 
 import App from "../App";
 import Menu from "../SidebarMenu/Menu";
@@ -19,10 +20,29 @@ import ShiftTimes from "./Availability/ShiftTimes";
 import Finish from "./Finish";
 import Complete from "./Complete";
 
+import ListMenu from "../../static/icons/ListMenu";
+import Close from "../../static/icons/Close";
+
 import { API_URL } from "../../constants/urls";
 import { checkStatus } from "../../helpers";
 import { PositionContext } from "../../context/PositionContext";
 import { BusinessContext } from "../../context/BusinessContext";
+
+const OpenCloseButton = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  z-index: 3;
+  background-color: ${props => props.theme.white};
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+  margin-top: 100px;
+  ${props => (props.visible ? `display: flex` : `display: none`)};
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+`;
 
 const ApplicationContainer = styled.div`
   flex-grow: 1;
@@ -30,10 +50,41 @@ const ApplicationContainer = styled.div`
   display: flex;
 `;
 
+const PositionContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
+const QuestionsContainer = styled.div`
+  width: 100%;
+  max-width: 760px;
+`;
+
+const SideContainerLeft = styled.div`
+  flex: 1 0;
+  display: none;
+  ${media.desktop`
+    display: flex;
+    justify-content: flex-end;
+  `};
+`;
+
+const SideContainerRight = styled.div`
+  flex: 1 1;
+  display: none;
+  ${media.desktop`
+    display: flex;
+    justify-content: flex-end;
+  `};
+`;
+
 const PositionPage = props => {
   const businessContext = useContext(BusinessContext);
   const positionContext = useContext(PositionContext);
   const { business } = businessContext;
+
+  const [menuOpen, setMenuOpen] = useState(true);
 
   const isQuestionsGroup = currentGroup => {
     return (
@@ -152,83 +203,100 @@ const PositionPage = props => {
         <Route
           path="/:business/:position/:pageId"
           render={props => (
-            <>
-              <Menu visible={menuVisible()} />
-              {isQuestionsGroup(group) && (
-                <QuestionsGroup
-                  title={titles[group]}
-                  percentage={percentageComplete}
-                  total={positionContext.availableGroups.length}
-                  nextPage={nextPage}
-                  notice="* indicates required field"
-                  {...props}
+            <PositionContainer>
+              <SideContainerLeft>
+                <OpenCloseButton
+                  visible={menuVisible()}
+                  onClick={() => setMenuOpen(!menuOpen)}
                 >
-                  <Questions
+                  {menuOpen ? <Close /> : <ListMenu />}
+                </OpenCloseButton>
+                <Menu visible={menuVisible()} open={menuOpen} />
+              </SideContainerLeft>
+              <QuestionsContainer>
+                {isQuestionsGroup(group) && (
+                  <QuestionsGroup
+                    title={titles[group]}
+                    percentage={percentageComplete}
+                    total={positionContext.availableGroups.length}
+                    nextPage={nextPage}
+                    notice="* indicates required field"
                     group={group}
-                    questions={questions.questions}
-                    answersGroup={positionContext[group]}
+                    {...props}
+                  >
+                    <Questions
+                      group={group}
+                      questions={questions.questions}
+                      answersGroup={positionContext[group]}
+                      {...props}
+                    />
+                  </QuestionsGroup>
+                )}
+                {group === "workHistory" && (
+                  <QuestionsGroup
+                    title={titles[group]}
+                    group={group}
+                    percentage={percentageComplete}
+                    total={positionContext.availableGroups.length}
+                    nextPage={nextPage}
+                    notice="Please provide information for the last two years of your employment"
+                    {...props}
+                  >
+                    <WorkHistoryGroup />
+                  </QuestionsGroup>
+                )}
+                {group === "personalRefs" && (
+                  <QuestionsGroup
+                    title={titles[group]}
+                    group={group}
+                    percentage={percentageComplete}
+                    total={positionContext.availableGroups.length}
+                    nextPage={nextPage}
+                    notice="Please provide three personal references"
+                    {...props}
+                  >
+                    <PersonalRefsGroup />
+                  </QuestionsGroup>
+                )}
+                {group === "eduHistory" && (
+                  <QuestionsGroup
+                    title={titles[group]}
+                    group={group}
+                    percentage={percentageComplete}
+                    total={positionContext.availableGroups.length}
+                    nextPage={nextPage}
+                    notice="Please provide your educational history, starting with high school"
+                    {...props}
+                  >
+                    <EduHistoryGroup />
+                  </QuestionsGroup>
+                )}
+                {group === "availability" && (
+                  <QuestionsGroup
+                    title={titles[group]}
+                    group={group}
+                    percentage={percentageComplete}
+                    total={positionContext.availableGroups.length}
+                    nextPage={nextPage}
+                    notice="What days and times are you available? Please select all that apply:"
+                    {...props}
+                  >
+                    <ShiftTimes />
+                  </QuestionsGroup>
+                )}
+                {group === "finish" && (
+                  <Finish
+                    percentage={percentageComplete}
+                    total={positionContext.availableGroups.length}
+                    nextPage={nextPage}
+                    group={group}
                     {...props}
                   />
-                </QuestionsGroup>
-              )}
-              {group === "workHistory" && (
-                <QuestionsGroup
-                  title={titles[group]}
-                  percentage={percentageComplete}
-                  total={positionContext.availableGroups.length}
-                  nextPage={nextPage}
-                  notice="Please provide information for the last two years of your employment"
-                  {...props}
-                >
-                  <WorkHistoryGroup />
-                </QuestionsGroup>
-              )}
-              {group === "personalRefs" && (
-                <QuestionsGroup
-                  title={titles[group]}
-                  percentage={percentageComplete}
-                  total={positionContext.availableGroups.length}
-                  nextPage={nextPage}
-                  notice="Please provide three personal references"
-                  {...props}
-                >
-                  <PersonalRefsGroup />
-                </QuestionsGroup>
-              )}
-              {group === "eduHistory" && (
-                <QuestionsGroup
-                  title={titles[group]}
-                  percentage={percentageComplete}
-                  total={positionContext.availableGroups.length}
-                  nextPage={nextPage}
-                  notice="Please provide your educational history, starting with high school"
-                  {...props}
-                >
-                  <EduHistoryGroup />
-                </QuestionsGroup>
-              )}
-              {group === "availability" && (
-                <QuestionsGroup
-                  title={titles[group]}
-                  percentage={percentageComplete}
-                  total={positionContext.availableGroups.length}
-                  nextPage={nextPage}
-                  notice="What days and times are you available? Please select all that apply:"
-                  {...props}
-                >
-                  <ShiftTimes />
-                </QuestionsGroup>
-              )}
-              {group === "finish" && (
-                <Finish
-                  percentage={percentageComplete}
-                  total={positionContext.availableGroups.length}
-                  nextPage={nextPage}
-                  {...props}
-                />
-              )}
-              {group === "complete" && <Complete />}
-            </>
+                )}
+                {group === "complete" && <Complete />}
+              </QuestionsContainer>
+              <SideContainerRight />
+            </PositionContainer>
           )}
         />
       </ApplicationContainer>
