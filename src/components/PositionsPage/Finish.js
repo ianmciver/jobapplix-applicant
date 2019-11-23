@@ -6,23 +6,42 @@ import styled from "styled-components";
 import { PositionContext } from "../../context/PositionContext";
 
 import { dark, jaBlue, white } from "../../constants/colors";
+import { media } from "../../constants/mediaQueries";
 
 import {
   GroupContainer,
   QuestionsContainer,
   ButtonsGroup,
-  Buttons
+  Buttons,
+  PreviousButton
 } from "./QuestionsGroup";
 
+import { ApplyButton } from "../BusinessPage/PositionsList";
+
 export const Title = styled.h1`
-  font-size: 2rem;
-  margin-bottom: 20px;
+  font-size: 2.4rem;
+  color: ${props => props.theme.title};
+  align-self: flex-start;
+  margin-bottom: 5px;
+  ${media.desktop`
+    font-size: 3rem;
+  `};
+`;
+
+export const Divider = styled.div`
+  width: 75%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  align-self: flex-start;
+  ${media.desktop`
+    width: 50%;
+  `};
 `;
 
 export const Instructions = styled.p`
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   line-height: 2.5rem;
   text-align: center;
+  margin-top: 20px;
 `;
 
 const Finish = props => {
@@ -34,7 +53,8 @@ const Finish = props => {
         step={`${1 + Number(props.match.params.pageId)}/${props.total}`}
       />
       <QuestionsContainer>
-        <Title>FINISH</Title>
+        <Title>Submit Your Application</Title>
+        <Divider />
         <Instructions>
           Almost there! Please take a momment to look back through your
           application and change anything that doesn't look right. When you are
@@ -42,20 +62,20 @@ const Finish = props => {
         </Instructions>
       </QuestionsContainer>
       <ButtonsGroup>
-        <Buttons
+        <PreviousButton
           color={dark}
           bgColor={white}
           onClick={e => props.history.goBack()}
         >
-          PREVIOUS
-        </Buttons>
-        <Buttons
+          &larr; PREVIOUS
+        </PreviousButton>
+        <ApplyButton
           color={white}
           bgColor={jaBlue}
           onClick={() => positionContext.submitApplication(props.nextPage)}
         >
-          SUBMIT
-        </Buttons>
+          SUBMIT &rarr;
+        </ApplyButton>
       </ButtonsGroup>
     </GroupContainer>
   );

@@ -48,6 +48,7 @@ const ApplicationContainer = styled.div`
   flex-grow: 1;
   width: 100%;
   display: flex;
+  background-color: ${props => props.theme.white};
 `;
 
 const PositionContainer = styled.div`
@@ -167,22 +168,23 @@ const PositionPage = props => {
   }/${pageId === undefined ? 0 : pageId + 1}`;
 
   const titles = {
-    basic: "BASIC INFORMATION",
-    position: "POSITION & AVAILABILITY",
-    history: "EMPLOYMENT HISTORY",
-    general: "GENERAL INFORMATION",
-    skills: "RELEVANT SKILLS",
-    other: "OTHER INFORMATION",
-    workHistory: "WORK HISTORY",
-    personalRefs: "PERSONAL REFERENCES",
-    eduHistory: "EDUCATIONAL HISTORY",
-    availability: "AVAILABILITY",
-    custom: "POSITION SPECIFIC"
+    basic: "Basic Information",
+    position: "Position & Availability",
+    history: "Employment History",
+    general: "General Information",
+    skills: "Relevant Skills",
+    other: "Other Information",
+    workHistory: "Work History",
+    personalRefs: "Personal References",
+    eduHistory: "Educational History",
+    availability: "Availability",
+    custom: "Position Specific"
   };
 
   const menuVisible = () => {
     return props.match.params.pageId !== undefined && group !== "complete";
   };
+
   return (
     <App>
       <Helmet>

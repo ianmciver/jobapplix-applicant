@@ -13,9 +13,9 @@ export const GroupContainer = styled.div`
   flex-direction: column;
   width: 100%;
   max-width: 700px;
-  margin: 50px auto;
+  margin: 70px auto 50px;
   ${media.desktop`
-    margin-top: 130px;
+    margin-top: 110px;
   `};
 `;
 
@@ -29,9 +29,12 @@ export const QuestionsContainer = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 1.6rem;
+  font-size: 2.4rem;
+  color: ${props => props.theme.title};
+  align-self: flex-start;
+  margin-bottom: 5px;
   ${media.desktop`
-    font-size: 2.1rem;
+    font-size: 3rem;
   `};
 `;
 
@@ -40,7 +43,18 @@ export const Notice = styled.p`
   font-size: 1.2rem;
   line-height: 1.7rem;
   margin-bottom: 20px;
-  text-align: center;
+  /* text-align: center; */
+  align-self: flex-start;
+  color: ${props => props.theme.subTitle};
+`;
+
+export const Divider = styled.div`
+  width: 75%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  align-self: flex-start;
+  ${media.desktop`
+    width: 50%;
+  `};
 `;
 
 // Three types of questions text, boolean, multi
@@ -63,7 +77,7 @@ export const Buttons = styled.button`
   cursor: pointer;
 `;
 
-const PreviousButton = styled(ApplyButton)`
+export const PreviousButton = styled(ApplyButton)`
   background-image: none;
   background-color: ${props => props.theme.subTitle};
   &:hover {
@@ -78,12 +92,9 @@ const QuestionsGroup = props => {
   }
   return (
     <GroupContainer>
-      <ProgressBar
-        width={`${props.percentage}%`}
-        step={`${1 + Number(props.match.params.pageId)}/${props.total}`}
-      />
       <QuestionsContainer>
         <Title>{props.title}</Title>
+        <Divider />
         <Notice>{props.notice}</Notice>
         {props.children}
       </QuestionsContainer>

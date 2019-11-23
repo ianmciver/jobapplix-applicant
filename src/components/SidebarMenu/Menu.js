@@ -53,10 +53,11 @@ const MenuBody = styled.div`
 `;
 
 const MenuLine = styled.div`
-  height: 100%;
+  height: ${props => `${props.lineLength}px`};
   position: absolute;
   left: 30px;
   border-left: 2px solid ${props => props.theme.jaBlue};
+  transition: height 500ms linear;
 `;
 
 const MenuItems = styled.div`
@@ -69,24 +70,23 @@ const MenuItems = styled.div`
 
 const Menu = props => {
   const positionContext = useContext(PositionContext);
+  let lineLength = Number(props.match.params.pageId) * 57 + 28.5;
   return (
     <MenuContainer visible={props.visible} menuOpen={props.open}>
       <MenuHeader>
         <span>Application Steps:</span>
       </MenuHeader>
       <MenuBody>
-        <MenuLine />
+        <MenuLine lineLength={lineLength} />
         <MenuItems>
           {positionContext.availableGroups.map((item, index) => {
+            let selected = Number(props.match.params.pageId) !== index;
             return (
               <MenuItem
                 group={item}
                 key={item}
                 index={index}
-                visited={
-                  positionContext.visitedGroups[item] &&
-                  Number(props.match.params.pageId) !== index
-                }
+                visited={positionContext.visitedGroups[item] && selected}
               />
             );
           })}

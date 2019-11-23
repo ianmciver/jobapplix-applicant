@@ -348,7 +348,6 @@ const PositionContextComponent = props => {
   const changeVisitedGroup = group => {
     setVisitedGroups({ ...visitedGroups, [group]: true });
   };
-
   return (
     <PositionContext.Provider
       value={{

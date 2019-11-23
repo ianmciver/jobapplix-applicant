@@ -7,6 +7,8 @@ const HeaderContainer = styled.div`
   width: 100%;
   background-color: #fff;
   position: fixed;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 `;
 
 const BusinessImageContainer = styled.div`

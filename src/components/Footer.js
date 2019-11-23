@@ -9,6 +9,7 @@ const FooterContainer = styled.div`
   display: flex;
   justify-content: center;
   z-index: 10;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
   a {
     color: ${props => props.theme.jaBlue};
     font-size: 1.2rem;
