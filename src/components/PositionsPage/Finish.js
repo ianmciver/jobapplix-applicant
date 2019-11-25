@@ -48,10 +48,6 @@ const Finish = props => {
   const positionContext = useContext(PositionContext);
   return (
     <GroupContainer>
-      <ProgressBar
-        width={`${props.percentage}%`}
-        step={`${1 + Number(props.match.params.pageId)}/${props.total}`}
-      />
       <QuestionsContainer>
         <Title>Submit Your Application</Title>
         <Divider />

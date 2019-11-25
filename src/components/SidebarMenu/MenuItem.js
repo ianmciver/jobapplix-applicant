@@ -2,12 +2,14 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 
+import { media } from "../../constants/mediaQueries";
+
 import RightCaret from "../../static/icons/RightCaret";
 import Checkmark from "../../static/icons/Checkmark";
 
 const Circle = styled.div`
-  width: 17px;
-  height: 17px;
+  width: 25px;
+  height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,14 +18,23 @@ const Circle = styled.div`
   border: 1px solid transparent;
   background-color: ${props =>
     props.visited ? props.theme.jaBlue : "transparent"};
+
+  ${media.desktop`
+    width: 17px;
+    height: 17px;
+  `}
 `;
 
 const Dot = styled.div`
   width: 11px;
   height: 11px;
   border-radius: 50%;
-  background-color: ${props => props.theme.subTitle};
+  background-color: ${props =>
+    props.selected ? props.theme.white : props.theme.subTitle};
   display: ${props => (props.visited ? "none" : "block")};
+  ${media.desktop`
+    background-color: ${props => props.theme.subTitle};
+  `}
 `;
 
 const Title = styled.span`
@@ -31,18 +42,41 @@ const Title = styled.span`
 `;
 
 const MenuItemContainer = styled.div`
-  margin: 20px 0;
+  padding: 20px;
   display: flex;
   align-items: center;
-  font-size: 1.5rem;
+  justify-content: space-between;
+  font-size: 2.2rem;
+  background: ${props => (props.selected ? props.theme.jaBlue : "transparent")};
   color: ${props =>
-    props.visited ? props.theme.jaBlue : props.theme.subTitle};
+    props.selected
+      ? props.theme.white
+      : props.visited
+      ? props.theme.jaBlue
+      : props.theme.subTitle};
   cursor: pointer;
+
   &:hover {
-    ${Title} {
-      text-decoration: underline;
-    }
+    ${media.desktop`
+      ${Title} {
+        text-decoration: underline;
+      }    
+    `}
   }
+
+  ${media.desktop`
+    font-size: 1.5rem;
+    margin: 20px 10px 20px 0;
+    padding: 0;
+    color: ${props =>
+      props.visited ? props.theme.jaBlue : props.theme.subTitle}
+    background-color: transparent;
+  `}
+`;
+
+const CircleTitleContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const titles = {
@@ -62,9 +96,10 @@ const titles = {
 };
 
 const MenuItem = props => {
+  const selected = Number(props.match.params.pageId) === props.index;
   return (
     <MenuItemContainer
-      selected={props.selected}
+      selected={selected}
       visited={props.visited}
       onClick={e =>
         props.history.push(
@@ -72,14 +107,14 @@ const MenuItem = props => {
         )
       }
     >
-      <Circle visited={props.visited}>
-        <Dot visited={props.visited} />
-        {props.visited && <Checkmark />}
-      </Circle>
-      <Title visited={props.visited}>{titles[props.group]}</Title>
-      {Number(props.match.params.pageId) === props.index && (
-        <RightCaret color={props.visited ? "#00c2ea" : undefined} />
-      )}
+      <CircleTitleContainer>
+        <Circle visited={props.visited}>
+          <Dot visited={props.visited} selected={selected} />
+          {props.visited && <Checkmark />}
+        </Circle>
+        <Title visited={props.visited}>{titles[props.group]}</Title>
+      </CircleTitleContainer>
+      {selected && <RightCaret color={props.visited ? "#00c2ea" : undefined} />}
     </MenuItemContainer>
   );
 };

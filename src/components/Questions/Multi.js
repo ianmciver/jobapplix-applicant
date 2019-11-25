@@ -81,7 +81,6 @@ const MultiOption = styled.div`
 const MultiQuestion = props => {
   const [open, setOpen] = useState(false);
   const valueIndex = props.options.findIndex(item => item === props.value);
-  console.log(valueIndex);
   return (
     <>
       <MultiModal open={open} onClick={() => setOpen(false)} />

@@ -28,20 +28,32 @@ import { checkStatus } from "../../helpers";
 import { PositionContext } from "../../context/PositionContext";
 import { BusinessContext } from "../../context/BusinessContext";
 
+const MobileOnly = styled.div`
+  ${media.desktop`
+    display: none;
+  `};
+`;
+
 const OpenCloseButton = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  z-index: 3;
+  z-index: 11;
   background-color: ${props => props.theme.white};
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  position: relative;
   margin-top: 100px;
-  ${props => (props.visible ? `display: flex` : `display: none`)};
+  position: fixed;
+  right: 20px;
+  top: -30px;
+  display: flex;
   cursor: pointer;
   justify-content: center;
   align-items: center;
   margin-left: 20px;
+  ${media.desktop`
+    position: relative;
+    visibility: hidden;
+  `};
 `;
 
 const ApplicationContainer = styled.div`
@@ -85,7 +97,7 @@ const PositionPage = props => {
   const positionContext = useContext(PositionContext);
   const { business } = businessContext;
 
-  const [menuOpen, setMenuOpen] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const isQuestionsGroup = currentGroup => {
     return (
@@ -207,15 +219,19 @@ const PositionPage = props => {
           render={props => (
             <PositionContainer>
               <SideContainerLeft>
-                <OpenCloseButton
-                  visible={menuVisible()}
-                  onClick={() => setMenuOpen(!menuOpen)}
-                >
-                  {menuOpen ? <Close /> : <ListMenu />}
-                </OpenCloseButton>
-                <Menu visible={menuVisible()} open={menuOpen} />
+                <OpenCloseButton></OpenCloseButton>
+                <Menu visible={menuVisible()} open={true} />
               </SideContainerLeft>
               <QuestionsContainer>
+                <MobileOnly>
+                  <OpenCloseButton
+                    visible={menuVisible()}
+                    onClick={() => setMenuOpen(!menuOpen)}
+                  >
+                    {menuOpen ? <Close /> : <ListMenu />}
+                  </OpenCloseButton>
+                  <Menu visible={menuVisible()} open={menuOpen} mobile />
+                </MobileOnly>
                 {isQuestionsGroup(group) && (
                   <QuestionsGroup
                     title={titles[group]}
