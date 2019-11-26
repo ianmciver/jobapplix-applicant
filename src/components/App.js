@@ -6,9 +6,7 @@ const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  ${media.desktop`
-  
-  `}
+  background-color: #f9f9f9;
 `;
 
 const App = props => <AppContainer>{props.children}</AppContainer>;

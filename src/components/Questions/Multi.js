@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 
-import { dark, white, jaBlue } from "../../constants/colors";
-// import position from "../../pages/position";
 const MultiModal = styled.div`
   position: fixed;
   top: 0;
@@ -19,18 +17,19 @@ const MultiContainer = styled.div`
 `;
 
 const QuestionText = styled.p`
-  font-size: 1.3rem;
-  margin-bottom: 15px;
+  font-size: 1.4rem;
+  margin-bottom: 10px;
 `;
 
 const MultiSelector = styled.div`
   height: 33px;
   overflow: ${props => (props.open ? "visible" : "hidden")};
-  border: ${props => (props.open ? "none" : `1px solid ${dark}`)};
+  border: ${props => (props.open ? "none" : `2px solid rgba(0,0,0,0.2)`)};
   border-radius: 5px;
   position: relative;
   display: inline-flex;
   flex-wrap: wrap;
+  background-color: transparent;
 `;
 
 const MultiWindow = styled.div`
@@ -45,20 +44,22 @@ const MultiWindow = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  z-index: 1;
+  cursor: pointer;
 `;
 
 const MultiList = styled.div`
   position: relative;
-  border: ${props => (props.open ? `1px solid ${dark}` : "none")};
+  border: ${props => (props.open ? `2px solid rgba(0,0,0,0.2)` : "none")};
   border-radius: 5px;
-  background-color: ${white};
+  background-color: ${props => props.theme.white};
   height: ${props => props.length * 33}px;
   top: ${props =>
     css`
       ${props.valueIndex * -33}px
     `};
   left: -1px;
-  z-index: ${props => (props.open ? 100 : -1)};
+  z-index: ${props => (props.open ? 100 : 0)};
   display: inline-flex;
   flex-direction: column;
 `;
@@ -71,8 +72,8 @@ const MultiOption = styled.div`
   align-items: center;
   font-size: 1.2rem;
   &:hover {
-    background-color: ${jaBlue};
-    color: ${white};
+    background-color: ${props => props.theme.jaBlue};
+    color: ${props => props.theme.white};
   }
   cursor: pointer;
 `;

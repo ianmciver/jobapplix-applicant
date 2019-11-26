@@ -7,7 +7,7 @@ const QuestionsContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 const SubQuestionContainer = styled.div`
   margin-top: 5px;

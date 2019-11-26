@@ -4,23 +4,22 @@ import styled from "styled-components";
 import Text from "../Questions/Text";
 import { validateNums } from "../../helpers";
 
-import { positionsBackground } from "../../constants/colors";
-
 const PersonalRefsGroup = styled.div`
   width: 100%;
   padding: 10px 15px;
-  border: 1px solid ${positionsBackground};
+  border: 2px solid ${props => props.theme.positionsBackground};
   border-radius: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 
   &:nth-child(even) {
-    background-color: ${positionsBackground};
+    background-color: ${props => props.theme.positionsBackground};
   }
 `;
 
 const PersonalRefsTitle = styled.h2`
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   margin-bottom: 10px;
+  color: ${props => props.theme.subTitle};
 `;
 
 const PersonalRefs = props => {

@@ -10,7 +10,9 @@ import { BusinessContext } from "../../context/BusinessContext";
 
 import App from "../App";
 import Header from "../BusinessPage/Header";
-import PositionsList from "../BusinessPage/PositionsList";
+import PositionsList, {
+  PositionsListContainer
+} from "../BusinessPage/PositionsList";
 import Footer from "../Footer";
 
 const BusinessPage = props => {
@@ -47,10 +49,14 @@ const BusinessPage = props => {
         </Helmet>
 
         <Header business={businessContext.business} />
-        <PositionsList
-          positions={businessContext.positions}
-          businessName={props.match.params.business}
-        />
+        {businessContext.business.active ? (
+          <PositionsList
+            positions={businessContext.positions}
+            businessName={props.match.params.business}
+          />
+        ) : (
+          <PositionsListContainer />
+        )}
         <Footer />
       </App>
     );

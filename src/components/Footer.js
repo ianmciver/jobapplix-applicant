@@ -1,22 +1,31 @@
 import React from "react";
 
 import styled from "styled-components";
-import { dark, jaBlue } from "../constants/colors";
 
 const FooterContainer = styled.div`
   width: 100%;
-  background-color: ${dark};
-  padding: 15px;
-  p {
-    color: ${jaBlue};
-    font-size: 1.1rem;
-    text-align: center;
+  background-color: ${props => props.theme.white};
+  padding: 25px;
+  display: flex;
+  justify-content: center;
+  z-index: 9;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  a {
+    color: ${props => props.theme.jaBlue};
+    font-size: 1.2rem;
+    text-decoration: none;
   }
 `;
 
 const Footer = () => (
   <FooterContainer>
-    <p>Powered by JobApplix</p>
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://www.jobapplix.com"
+    >
+      Powered by JobApplix
+    </a>
   </FooterContainer>
 );
 

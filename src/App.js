@@ -1,7 +1,9 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
 
 import GlobalStyles from "./components/GlobalStyles";
+import { theme } from "./constants/colors";
 
 import BusinessContextProvider from "./context/BusinessContext";
 import PositionContextProvider from "./context/PositionContext";
@@ -13,7 +15,7 @@ import FOF from "./components/FourOhFour";
 
 const App = () => {
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <BusinessContextProvider>
         <PositionContextProvider>
           <GlobalStyles />
@@ -28,7 +30,7 @@ const App = () => {
           </Switch>
         </PositionContextProvider>
       </BusinessContextProvider>
-    </>
+    </ThemeProvider>
   );
 };
 
