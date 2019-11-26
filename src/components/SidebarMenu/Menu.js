@@ -36,7 +36,7 @@ const MenuHeader = styled.div`
   background-color: ${props => props.theme.title};
   padding: 20px 30px;
   span {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     color: ${props => props.theme.white};
   }
 
@@ -76,10 +76,6 @@ const MenuItems = styled.div`
   flex-direction: column;
   position: relative;
   z-index: 2;
-
-  ${media.desktop`
-    margin-left: 22.5px;
-  `}
 `;
 
 const Menu = props => {
@@ -91,7 +87,6 @@ const Menu = props => {
         <span>Application Steps:</span>
       </MenuHeader>
       <MenuBody>
-        <MenuLine lineLength={lineLength} />
         <MenuItems>
           {positionContext.availableGroups.map((item, index) => {
             let selected = Number(props.match.params.pageId) !== index;

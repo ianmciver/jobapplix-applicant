@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { withRouter } from "react-router-dom";
 
-import { dark, white, jaBlue, lightBorder } from "../../constants/colors";
 import { media } from "../../constants/mediaQueries";
 const HeaderContainer = styled.div`
   width: 100%;
@@ -30,6 +30,7 @@ const BusinessImage = styled.img`
   max-height: 30px;
   width: auto;
   max-width: 290px;
+  cursor: pointer;
   ${media.desktop`
     max-height: 50px;
     max-width: 760px;
@@ -53,10 +54,10 @@ const PositionAndBusinessName = styled.div`
 `;
 
 const PositionTitle = styled.h2`
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   color: ${props => props.theme.title};
   ${media.desktop`
-    font-size: 2.4rem;
+    font-size: 2rem;
   `};
 `;
 
@@ -64,11 +65,15 @@ const Header = props => {
   return (
     <HeaderContainer>
       <BusinessImageContainer>
-        <BusinessImage src={props.business.image_url} />
+        <PositionTitle>{props.business.name}</PositionTitle>
+        <BusinessImage
+          src={props.business.image_url}
+          onClick={() => props.history.push(`/${props.businessUrl}`)}
+        />
         <PositionTitle>{props.positionName}</PositionTitle>
       </BusinessImageContainer>
     </HeaderContainer>
   );
 };
 
-export default Header;
+export default withRouter(Header);

@@ -53,6 +53,7 @@ export const ApplyButton = styled.button`
   &:hover {
     background-image: none;
     background-color: ${props => props.theme.backgroundBlue};
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
   }
   &:disabled {
     background-image: none;

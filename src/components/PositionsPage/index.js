@@ -202,7 +202,11 @@ const PositionPage = props => {
       <Helmet>
         <title>{businessContext.business.name}</title>
       </Helmet>
-      <Header business={business} positionName={positionContext.details.name} />
+      <Header
+        business={business}
+        positionName={positionContext.details.name}
+        businessUrl={props.match.params.business}
+      />
       <ApplicationContainer>
         <Route
           path="/:business/:position"

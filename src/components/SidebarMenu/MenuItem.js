@@ -32,13 +32,10 @@ const Dot = styled.div`
   background-color: ${props =>
     props.selected ? props.theme.white : props.theme.subTitle};
   display: ${props => (props.visited ? "none" : "block")};
-  ${media.desktop`
-    background-color: ${props => props.theme.subTitle};
-  `}
 `;
 
 const Title = styled.span`
-  margin-right: 15px;
+  /* margin-right: 15px; */
 `;
 
 const MenuItemContainer = styled.div`
@@ -65,13 +62,7 @@ const MenuItemContainer = styled.div`
   }
 
   ${media.desktop`
-    font-size: 1.5rem;
-    margin: 20px 10px 20px 0;
-    padding: 0;
-    color: ${props =>
-      props.visited ? props.theme.jaBlue : props.theme.subTitle}
-    background-color: transparent;
-  `}
+    font-size: 1.5rem;`}
 `;
 
 const CircleTitleContainer = styled.div`
@@ -114,7 +105,7 @@ const MenuItem = props => {
         </Circle>
         <Title visited={props.visited}>{titles[props.group]}</Title>
       </CircleTitleContainer>
-      {selected && <RightCaret color={props.visited ? "#00c2ea" : undefined} />}
+      {selected && <RightCaret />}
     </MenuItemContainer>
   );
 };

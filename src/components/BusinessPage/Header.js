@@ -85,29 +85,25 @@ const Divider = styled.div`
 `;
 
 const BusinessContact = styled.h3`
-  font-size: 1.4rem;
-  font-weight: 300;
-  line-height: 2.2rem;
-  letter-spacing: 0.05rem;
+  font-size: 1.8rem;
+  letter-spacing: -0.015rem;
+  line-height: 28px;
   ${media.desktop`
-    line-height: 2.4rem;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   `};
 `;
 
 const AboutUsTitle = styled.h3`
-  margin: 40px 0 15px;
-  font-size: 2.4rem;
-  color: ${props => props.theme.subTitle};
+  margin: 40px 0 5px;
+  font-size: 1.8rem;
+  font-weight: bold;
 `;
 
 const BusinessDescription = styled.p`
-  font-size: 1.6rem;
-
-  line-height: 2.2rem;
+  font-size: 1.8rem;
+  letter-spacing: -0.015rem;
+  line-height: 28px;
   white-space: pre-line;
-  ${media.desktop`
-  `};
 `;
 
 const Header = props => {

@@ -26,11 +26,10 @@ const DescriptionContainer = styled.div`
 
 const DescriptionDetails = styled.p`
   margin: 30px 0;
-  font-size: 1.5rem;
-  line-height: 2rem;
-  flex-grow: 1;
+  font-size: 1.8rem;
+  letter-spacing: -0.015rem;
+  line-height: 28px;
   white-space: pre-line;
-  color: ${props => props.theme.title};
 `;
 
 const NextButton = styled(ApplyButton)`
