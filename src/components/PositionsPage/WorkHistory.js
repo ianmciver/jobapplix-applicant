@@ -1,10 +1,11 @@
 import React from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
+
+import { updateWorkHist } from "../../reduxSlices/PositionSlice";
 
 import Text from "../Questions/Text";
 import Bool from "../Questions/Bool";
-
-import { positionsBackground } from "../../constants/colors";
 
 const WorkHistoryGroup = styled.div`
   width: 100%;
@@ -26,79 +27,82 @@ const WorkHistTitle = styled.h2`
 
 const WorkHistory = props => {
   const { workRef, index } = props;
+
   const title = ind =>
     ind === 0 ? "Most Recent Position" : `Position #${ind + 1}`;
-  const changeHandler = (key, value) => e => {
+
+  const changeHandler = (_, key, value) => {
     props.updateWorkHist(index, key, value);
   };
+
   return (
     <WorkHistoryGroup>
       <WorkHistTitle>{title(index)}</WorkHistTitle>
       <Text
         labelVisible={false}
         value={workRef.employer_name}
-        question="Name of Employer"
+        question={{ question: "Name of Employer" }}
         id="employer_name"
         changeHandler={changeHandler}
       />
       <Text
         labelVisible={false}
         value={workRef.phone}
-        question="Employers Phone Number"
+        question={{ question: "Employers Phone Number" }}
         changeHandler={changeHandler}
         id="phone"
       />
       <Text
         labelVisible={false}
         value={workRef.address}
-        question="Address"
+        question={{ question: "Address" }}
         changeHandler={changeHandler}
         id="address"
       />
       <Text
         labelVisible={false}
         value={workRef.supervisors_name}
-        question="Your Supervisor's Name"
+        question={{ question: "Your Supervisor's Name" }}
         changeHandler={changeHandler}
         id="supervisors_name"
       />
       <Text
         labelVisible={false}
         value={workRef.title}
-        question="Your Title"
+        question={{ question: "Your Title" }}
         changeHandler={changeHandler}
         id="title"
       />
       <Text
         labelVisible={false}
         value={workRef.duties}
-        question="Your Duties"
+        question={{ question: "Your Duties" }}
         changeHandler={changeHandler}
         id="duties"
       />
       <Text
         labelVisible={false}
         value={workRef.start_date}
-        question="Date You Started"
+        question={{ question: "Date You Started" }}
         changeHandler={changeHandler}
         id="start_date"
       />
       <Text
         labelVisible={false}
         value={workRef.end_date}
-        question="Date You Left"
+        question={{ question: "Date You Left" }}
         changeHandler={changeHandler}
         id="end_date"
       />
       <Text
         labelVisible={false}
         value={workRef.reason_for_leaving}
-        question="Your Reason for Leaving"
+        question={{ question: "Your Reason for Leaving" }}
         changeHandler={changeHandler}
         id="reason_for_leaving"
       />
       <Bool
-        question={"May we contact this employer?"}
+        question={{ question: "May we contact this employer?" }}
         value={workRef.can_contact}
         changeHandler={changeHandler}
         id="can_contact"
@@ -107,4 +111,4 @@ const WorkHistory = props => {
   );
 };
 
-export default WorkHistory;
+export default connect(null, { updateWorkHist })(WorkHistory);

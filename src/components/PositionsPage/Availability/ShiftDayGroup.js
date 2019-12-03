@@ -1,9 +1,13 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 
 import { dark, white } from "../../../constants/colors";
 
-import { PositionContext } from "../../../context/PositionContext";
+import {
+  updateShiftTimesAnswer,
+  updateAllShiftTimesAnswer
+} from "../../../reduxSlices/PositionSlice";
 
 const ShiftDayGroupContainer = styled.div`
   width: 100%;
@@ -36,11 +40,7 @@ const Button = styled.button`
 
 const ShiftDayGroup = props => {
   const [allSelected, setAllSelected] = useState(false);
-  const {
-    details,
-    updateAllShiftTimesAnswer,
-    updateShiftTimesAnswer
-  } = useContext(PositionContext);
+  const { updateShiftTimesAnswer, updateAllShiftTimesAnswer, details } = props;
   const { shiftTimes } = details;
   const formatShiftTime = time => {
     const shiftTime = time.split(":");
@@ -122,4 +122,7 @@ const ShiftDayGroup = props => {
   );
 };
 
-export default ShiftDayGroup;
+export default connect(state => ({ details: state.position.details }), {
+  updateShiftTimesAnswer,
+  updateAllShiftTimesAnswer
+})(ShiftDayGroup);

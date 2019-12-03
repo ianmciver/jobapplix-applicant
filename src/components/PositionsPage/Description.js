@@ -1,11 +1,8 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 
 import { media } from "../../constants/mediaQueries";
-
-import { PositionContext } from "../../context/PositionContext";
 
 import { ApplyButton } from "../BusinessPage/PositionsList";
 
@@ -40,14 +37,13 @@ const NextButton = styled(ApplyButton)`
 `;
 
 const Description = props => {
-  const { details } = useContext(PositionContext);
   const nextStep = () => {
     props.history.push(props.nextPage);
   };
   return (
     <DescriptionContainer>
       <h1>About the Position:</h1>
-      <DescriptionDetails>{details.description}</DescriptionDetails>
+      <DescriptionDetails>{props.description}</DescriptionDetails>
       <NextButton onClick={nextStep}>GET STARTED &rarr;</NextButton>
     </DescriptionContainer>
   );

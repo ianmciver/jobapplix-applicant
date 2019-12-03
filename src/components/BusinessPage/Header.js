@@ -74,16 +74,6 @@ const BusinessName = styled.h1`
   `};
 `;
 
-const Divider = styled.div`
-  width: 50%;
-  height: 4px;
-  background-color: ${props => props.theme.jaBlue};
-  margin: 10px 0;
-  ${media.desktop`
-    display: none;
-  `};
-`;
-
 const BusinessContact = styled.h3`
   font-size: 1.8rem;
   letter-spacing: -0.015rem;

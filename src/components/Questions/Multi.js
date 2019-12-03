@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import styled, { css } from "styled-components";
+
+import DownCaret from "../../static/icons/DownCaret";
+import { changeHandler } from "../../reduxSlices/PositionSlice";
 
 const MultiModal = styled.div`
   position: fixed;
@@ -78,44 +82,36 @@ const MultiOption = styled.div`
   cursor: pointer;
 `;
 
+//TODO: accessibility
+
 const MultiQuestion = props => {
+  const { question, id, sub, changeHandler, value } = props;
   const [open, setOpen] = useState(false);
-  const valueIndex = props.options.findIndex(item => item === props.value);
+  const valueIndex = question.options.findIndex(item => item === value);
+  const optionSelect = option => e => {
+    changeHandler(question.group, id, sub, option);
+  };
+
   return (
     <>
       <MultiModal open={open} onClick={() => setOpen(false)} />
       <MultiContainer>
-        <QuestionText>{props.question}</QuestionText>
+        <QuestionText>{question.question}</QuestionText>
         <MultiSelector open={open}>
           <MultiWindow open={open} onClick={e => setOpen(true)}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="17.314"
-              height="10.071"
-              viewBox="0 0 17.314 10.071"
-            >
-              <path
-                id="Path_76"
-                data-name="Path 76"
-                d="M630.786,5883.881l7.95,7.95,7.95-7.95"
-                transform="translate(-630.079 -5883.174)"
-                fill="none"
-                stroke="#2b2d2d"
-                strokeWidth="2"
-              />
-            </svg>
+            <DownCaret />
           </MultiWindow>
           <MultiList
             open={open}
             valueIndex={valueIndex}
-            onClick={e => setOpen(false)}
-            length={props.options.length}
+            onClick={() => setOpen(false)}
+            length={question.options.length}
           >
-            {props.options.map(option => {
+            {question.options.map(option => {
               return (
                 <MultiOption
                   key={option + Math.random()}
-                  onClick={props.changeHandler(props.id, option, props.sub)}
+                  onClick={optionSelect(option)}
                 >
                   {option}
                 </MultiOption>
@@ -128,4 +124,4 @@ const MultiQuestion = props => {
   );
 };
 
-export default MultiQuestion;
+export default connect(null, { changeHandler })(MultiQuestion);
