@@ -50,7 +50,7 @@ const Header = props => {
   return (
     <HeaderContainer>
       <BusinessImageContainer>
-        <PositionTitle>{props.business.name}</PositionTitle>
+        {/* <PositionTitle>{props.business.name}</PositionTitle> */}
         <BusinessImage
           src={props.business.image_url}
           onClick={() => props.history.push(`/${props.businessUrl}`)}

@@ -51,12 +51,12 @@ const MenuItemContainer = styled.div`
       : props.visited
       ? props.theme.jaBlue
       : props.theme.subTitle};
-  cursor: pointer;
+  cursor: ${props => (props.visited ? "pointer" : "auto")};
 
   &:hover {
     ${media.desktop`
       ${Title} {
-        text-decoration: underline;
+        text-decoration: ${props => (props.visited ? "underline" : "none")};
       }    
     `}
   }
@@ -88,15 +88,20 @@ const titles = {
 
 const MenuItem = props => {
   const selected = Number(props.match.params.pageId) === props.index;
+  const clickHandler = e => {
+    if (props.visited) {
+      props.history.push(
+        `/${props.match.params.business}/${props.match.params.position}/${props.index}`
+      );
+    } else {
+      return;
+    }
+  };
   return (
     <MenuItemContainer
       selected={selected}
       visited={props.visited}
-      onClick={e =>
-        props.history.push(
-          `/${props.match.params.business}/${props.match.params.position}/${props.index}`
-        )
-      }
+      onClick={clickHandler}
     >
       <CircleTitleContainer>
         <Circle visited={props.visited}>
