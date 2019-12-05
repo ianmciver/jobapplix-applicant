@@ -14,7 +14,7 @@ export const GroupContainer = styled.div`
   flex-direction: column;
   width: 100%;
   max-width: 700px;
-  margin: 70px auto 50px;
+  margin: 110px auto 50px;
   ${media.desktop`
     margin-top: 110px;
   `};

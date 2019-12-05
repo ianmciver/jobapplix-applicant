@@ -225,7 +225,7 @@ const PositionPage = props => {
           render={props => (
             <PositionContainer>
               <SideContainerLeft>
-                <OpenCloseButton></OpenCloseButton>
+                <OpenCloseButton />
                 <Menu visible={menuVisible()} open={true} />
               </SideContainerLeft>
               <QuestionsContainer>

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { withRouter, Link } from "react-router-dom";
-import { jaBlue, white, dark } from "../../constants/colors";
+
 import { GroupContainer } from "./QuestionsGroup";
 
 import { ApplyButton } from "../BusinessPage/PositionsList";
@@ -15,7 +15,7 @@ const CompleteContainer = styled(GroupContainer)`
 
 const Info = styled.h1`
   font-size: 3.4rem;
-  color: ${jaBlue};
+  color: ${props => props.theme.jaBlue};
   margin-bottom: 50px;
   text-align: center;
 `;
