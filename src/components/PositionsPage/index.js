@@ -194,9 +194,11 @@ const PositionPage = props => {
     availability: "Availability",
     custom: "Position Specific"
   };
+
   const menuVisible = () => {
     return props.match.params.pageId !== undefined && group !== "complete";
   };
+
   return (
     <App>
       <Helmet>

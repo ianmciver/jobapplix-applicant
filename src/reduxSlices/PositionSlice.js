@@ -80,7 +80,8 @@ const initialState = {
   workHist: [workHistSchema],
   eduHist: [eduHistSchema],
   personalRefs: [personalRefsSchema, personalRefsSchema, personalRefsSchema],
-  shiftTimesAnswers: shiftTimesSchema
+  shiftTimesAnswers: shiftTimesSchema,
+  loading: false
 };
 
 const parsePositionData = position => {
@@ -144,6 +145,7 @@ const parsePositionData = position => {
   }
 
   groupsWithQuestions.push("finish");
+  groupsWithQuestions.push("complete");
   visitedGroups["finish"] = false;
   parsedPosition.availableGroups = groupsWithQuestions;
   parsedPosition.visitedGroups = visitedGroups;
@@ -252,6 +254,10 @@ const positionSlice = createSlice({
       prepare: visited => ({
         payload: visited
       })
+    },
+    clear: (state, action) => {
+      state = initialState;
+      return;
     }
   }
 });

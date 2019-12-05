@@ -89,7 +89,7 @@ const MultiQuestion = props => {
   const [open, setOpen] = useState(false);
   const valueIndex = question.options.findIndex(item => item === value);
   const optionSelect = option => e => {
-    changeHandler(question.group, id, sub, option);
+    changeHandler(question.group, id, option, sub);
   };
 
   return (

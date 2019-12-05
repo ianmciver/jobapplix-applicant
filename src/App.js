@@ -7,8 +7,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import GlobalStyles from "./components/GlobalStyles";
 import { theme } from "./constants/colors";
 
-import PositionContextProvider from "./context/PositionContext";
-
 import BusinessPage from "./components/BusinessPage";
 import PositionsPage from "./components/PositionsPage";
 import reducer from "./reduxSlices";

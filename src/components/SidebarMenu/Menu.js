@@ -24,7 +24,7 @@ const MenuContainer = styled.div`
     border-radius: 5px;
     align-self: flex-start;
     position: relative;
-    display: flex;
+    display: ${props => (props.visible ? "flex" : "none")};
     top: 120px;
     right: 20px;
     width: 250px;
