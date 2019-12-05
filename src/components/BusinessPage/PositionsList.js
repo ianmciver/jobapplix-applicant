@@ -17,7 +17,7 @@ const PositionHeader = styled.div`
   width: calc(100%-40px);
   display: flex;
   flex-direction: column;
-  padding: 40px 0 30px;
+  padding: 40px 0 10px;
   border-bottom: 1px solid ${props => props.theme.positionsBorder};
   margin: 0 20px;
   h2 {
@@ -28,7 +28,7 @@ const PositionHeader = styled.div`
   ${media.desktop`
     width: 100%;
     margin: 0;
-    padding: 40px 0 30px;
+    padding: 40px 0 10px;
   `};
 `;
 
