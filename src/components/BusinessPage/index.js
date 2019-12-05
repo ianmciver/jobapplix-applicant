@@ -25,11 +25,8 @@ const BusinessPage = props => {
         const res = await fetch(
           `${API_URL}/businesses?url=${match.params.business}`
         );
-        console.log(API_URL);
-        console.log(res);
         await checkStatus(res);
         const data = await res.json();
-        console.log(data);
         loadBusiness({
           business: data.business,
           positions: data.positions
