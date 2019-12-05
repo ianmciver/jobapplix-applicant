@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { connect } from "react-redux";
 import { fetch } from "whatwg-fetch";
 import Helmet from "react-helmet";
 import { Route } from "react-router-dom";
@@ -25,8 +26,8 @@ import Close from "../../static/icons/Close";
 
 import { API_URL } from "../../constants/urls";
 import { checkStatus } from "../../helpers";
-import { PositionContext } from "../../context/PositionContext";
-import { BusinessContext } from "../../context/BusinessContext";
+import { loadBusiness } from "../../reduxSlices/BusinessSlice";
+import { loadPosition } from "../../reduxSlices/PositionSlice";
 
 const MobileOnly = styled.div`
   ${media.desktop`
@@ -93,9 +94,14 @@ const SideContainerRight = styled.div`
 `;
 
 const PositionPage = props => {
-  const businessContext = useContext(BusinessContext);
-  const positionContext = useContext(PositionContext);
-  const { business } = businessContext;
+  const {
+    match,
+    loadBusiness,
+    loadPosition,
+    history,
+    business,
+    position
+  } = props;
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -110,42 +116,42 @@ const PositionPage = props => {
     );
   };
 
-  const getBusiness = async () => {
+  const getBusiness = useCallback(async () => {
     try {
       const businessRes = await fetch(
-        `${API_URL}/businesses?url=${props.match.params.business}`
+        `${API_URL}/businesses?url=${match.params.business}`
       );
       await checkStatus(businessRes);
       const businessData = await businessRes.json();
-      businessContext.loadBusiness(
-        businessData.business,
-        businessData.positions
-      );
+      loadBusiness({
+        business: businessData.business,
+        positions: businessData.positions
+      });
     } catch (err) {
-      props.history.replace("/404");
+      history.replace("/404");
     }
-  };
+  }, [match, loadBusiness, history]);
 
-  const getPosition = async () => {
+  const getPosition = useCallback(async () => {
     try {
       const positionRes = await fetch(
-        `${API_URL}/businesses/position?id=${props.match.params.position}&businessUrl=${props.match.params.business}`
+        `${API_URL}/businesses/position?id=${match.params.position}&businessUrl=${match.params.business}`
       );
 
       await checkStatus(positionRes);
       const positionData = await positionRes.json();
-      positionContext.loadPosition(positionData);
+      loadPosition(positionData);
     } catch (err) {
-      props.history.replace(`/${props.match.params.business}`);
+      history.replace(`/${match.params.business}`);
     }
-  };
+  }, [match, loadPosition, history]);
 
   useEffect(() => {
-    if (!businessContext.business.loaded) {
+    if (!business.loaded) {
       getBusiness();
     }
 
-    if (!(positionContext.id === props.match.params.position)) {
+    if (!(position.details.id === props.match.params.position)) {
       getPosition();
     }
   }, []);
@@ -157,21 +163,17 @@ const PositionPage = props => {
   // Get the ID of the page if there is one.
   const pageId = props.match.params.pageId && Number(props.match.params.pageId);
 
-  // Using the pageId, find the percentage of the application completed
-  const percentageComplete =
-    ((pageId + 1) / positionContext.availableGroups.length) * 100;
-
   // Once the questions have loaded, get the name of the question group using the pageId
   const group =
-    pageId !== undefined && positionContext.availableGroups.length > 0
-      ? positionContext.availableGroups[pageId]
+    pageId !== undefined && position.availableGroups.length > 0
+      ? position.availableGroups[pageId]
       : "";
 
   // Once the questions have loaded, get the list of questions using the pageId and group name.
   const questions = (pageId !== undefined &&
     isQuestionsGroup(group) &&
-    positionContext.questions &&
-    positionContext.questions.find(obj => obj.groupName === group)) || {
+    position.questions &&
+    position.questions.find(obj => obj.groupName === group)) || {
     questions: []
   };
 
@@ -200,11 +202,11 @@ const PositionPage = props => {
   return (
     <App>
       <Helmet>
-        <title>{businessContext.business.name}</title>
+        <title>{business.name}</title>
       </Helmet>
       <Header
         business={business}
-        positionName={positionContext.details.name}
+        positionName={position.details.name}
         businessUrl={props.match.params.business}
       />
       <ApplicationContainer>
@@ -213,7 +215,7 @@ const PositionPage = props => {
           exact
           render={props => (
             <Description
-              description={positionContext.details.description}
+              description={position.details.description}
               nextPage={nextPage}
             />
           )}
@@ -239,8 +241,6 @@ const PositionPage = props => {
                 {isQuestionsGroup(group) && (
                   <QuestionsGroup
                     title={titles[group]}
-                    percentage={percentageComplete}
-                    total={positionContext.availableGroups.length}
                     nextPage={nextPage}
                     notice="* indicates required field"
                     group={group}
@@ -249,7 +249,7 @@ const PositionPage = props => {
                     <Questions
                       group={group}
                       questions={questions.questions}
-                      answersGroup={positionContext[group]}
+                      answersGroup={position[group]}
                       {...props}
                     />
                   </QuestionsGroup>
@@ -258,8 +258,6 @@ const PositionPage = props => {
                   <QuestionsGroup
                     title={titles[group]}
                     group={group}
-                    percentage={percentageComplete}
-                    total={positionContext.availableGroups.length}
                     nextPage={nextPage}
                     notice="Please provide information for the last two years of your employment"
                     {...props}
@@ -271,8 +269,6 @@ const PositionPage = props => {
                   <QuestionsGroup
                     title={titles[group]}
                     group={group}
-                    percentage={percentageComplete}
-                    total={positionContext.availableGroups.length}
                     nextPage={nextPage}
                     notice="Please provide three personal references"
                     {...props}
@@ -284,8 +280,6 @@ const PositionPage = props => {
                   <QuestionsGroup
                     title={titles[group]}
                     group={group}
-                    percentage={percentageComplete}
-                    total={positionContext.availableGroups.length}
                     nextPage={nextPage}
                     notice="Please provide your educational history, starting with high school"
                     {...props}
@@ -297,8 +291,6 @@ const PositionPage = props => {
                   <QuestionsGroup
                     title={titles[group]}
                     group={group}
-                    percentage={percentageComplete}
-                    total={positionContext.availableGroups.length}
                     nextPage={nextPage}
                     notice="What days and times are you available? Please select all that apply:"
                     {...props}
@@ -307,13 +299,7 @@ const PositionPage = props => {
                   </QuestionsGroup>
                 )}
                 {group === "finish" && (
-                  <Finish
-                    percentage={percentageComplete}
-                    total={positionContext.availableGroups.length}
-                    nextPage={nextPage}
-                    group={group}
-                    {...props}
-                  />
+                  <Finish nextPage={nextPage} group={group} {...props} />
                 )}
                 {group === "complete" && <Complete />}
               </QuestionsContainer>
@@ -327,4 +313,10 @@ const PositionPage = props => {
   );
 };
 
-export default PositionPage;
+export default connect(
+  state => ({ business: state.business, position: state.position }),
+  {
+    loadBusiness,
+    loadPosition
+  }
+)(PositionPage);

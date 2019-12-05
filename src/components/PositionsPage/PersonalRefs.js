@@ -1,5 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
+
+import { updatePersonalRefs } from "../../reduxSlices/PositionSlice";
 
 import Text from "../Questions/Text";
 import { validateNums } from "../../helpers";
@@ -25,7 +28,7 @@ const PersonalRefsTitle = styled.h2`
 const PersonalRefs = props => {
   const { personalRef, index } = props;
   const title = ind => `Reference #${ind + 1}`;
-  const changeHandler = (key, value) => e => {
+  const changeHandler = (_, key, value) => {
     props.updatePersonalRefs(index, key, value);
   };
   return (
@@ -34,42 +37,42 @@ const PersonalRefs = props => {
       <Text
         labelVisible={false}
         value={personalRef.name}
-        question="Name"
+        question={{ question: "Name" }}
         changeHandler={changeHandler}
         id="name"
       />
       <Text
         labelVisible={false}
         value={personalRef.address}
-        question="Address"
+        question={{ question: "Address" }}
         id="address"
         changeHandler={changeHandler}
       />
       <Text
         labelVisible={false}
         value={personalRef.phone}
-        question="Phone Number"
+        question={{ question: "Phone Number" }}
         changeHandler={changeHandler}
         id="phone"
       />
       <Text
         labelVisible={false}
         value={personalRef.email}
-        question="Email"
+        question={{ question: "Email" }}
         changeHandler={changeHandler}
         id="email"
       />
       <Text
         labelVisible={false}
         value={personalRef.relationship}
-        question="Your Relationship"
+        question={{ question: "Your Relationship" }}
         changeHandler={changeHandler}
         id="relationship"
       />
       <Text
         labelVisible={false}
         value={personalRef.years_known}
-        question="Years Known"
+        question={{ question: "Years Known" }}
         changeHandler={changeHandler}
         validator={validateNums}
         id="years_known"
@@ -78,4 +81,4 @@ const PersonalRefs = props => {
   );
 };
 
-export default PersonalRefs;
+export default connect(null, { updatePersonalRefs })(PersonalRefs);

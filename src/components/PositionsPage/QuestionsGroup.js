@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
-import { withRouter, Link } from "react-router-dom";
-import ProgressBar from "./ProgressBar";
+import React from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 
 import { media } from "../../constants/mediaQueries";
-import { PositionContext } from "../../context/PositionContext";
+
+import { changeVisitedGroups } from "../../reduxSlices/PositionSlice";
 
 import { ApplyButton } from "../BusinessPage/PositionsList";
 
@@ -86,9 +87,8 @@ export const PreviousButton = styled(ApplyButton)`
 `;
 
 const QuestionsGroup = props => {
-  const positionContext = useContext(PositionContext);
-  if (!positionContext.visitedGroups[props.group]) {
-    positionContext.changeVisitedGroup(props.group);
+  if (!props.visitedGroups[props.group]) {
+    props.changeVisitedGroups(props.group);
   }
   return (
     <GroupContainer>
@@ -110,4 +110,7 @@ const QuestionsGroup = props => {
   );
 };
 
-export default withRouter(QuestionsGroup);
+export default connect(
+  state => ({ visitedGroups: state.position.visitedGroups }),
+  { changeVisitedGroups }
+)(withRouter(QuestionsGroup));

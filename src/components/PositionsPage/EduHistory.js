@@ -27,7 +27,7 @@ const EduHistory = props => {
   const { eduRef, index } = props;
   const title = ind =>
     ind === 0 ? "Most Recent School" : `School #${ind + 1}`;
-  const changeHandler = (key, value) => e => {
+  const changeHandler = (_, key, value) => {
     props.updateEduHist(index, key, value);
   };
   return (
@@ -36,42 +36,54 @@ const EduHistory = props => {
       <Text
         labelVisible={false}
         value={eduRef.school_name}
-        question="Name of School"
+        question={{
+          question: "Name of School"
+        }}
         changeHandler={changeHandler}
         id="school_name"
       />
       <Text
         labelVisible={false}
         value={eduRef.school_type}
-        question="Type of School (eg: High School, University, etc.)"
+        question={{
+          question: "Type of School (eg: High School, University, etc.)"
+        }}
         id="school_type"
         changeHandler={changeHandler}
       />
       <Text
         labelVisible={false}
         value={eduRef.location}
-        question="Address of School"
+        question={{
+          question: "Address of School"
+        }}
         changeHandler={changeHandler}
         id="location"
       />
       <Text
         labelVisible={false}
         value={eduRef.field_of_study}
-        question="Your Area of Study/Major"
+        question={{
+          question: "Your Area of Study/Major"
+        }}
         changeHandler={changeHandler}
         id="field_of_study"
       />
       <Text
         labelVisible={false}
         value={eduRef.degree}
-        question="Type of Degree Earned"
+        question={{
+          question: "Type of Degree Earned"
+        }}
         changeHandler={changeHandler}
         id="degree"
       />
       <Text
         labelVisible={false}
         value={eduRef.years_completed}
-        question="Years Completed"
+        question={{
+          question: "Years Completed"
+        }}
         changeHandler={changeHandler}
         validator={validateNums}
         id="years_completed"
@@ -79,7 +91,9 @@ const EduHistory = props => {
       <Text
         labelVisible={false}
         value={eduRef.phone}
-        question="School's Phone Number"
+        question={{
+          question: "School's Phone Number"
+        }}
         changeHandler={changeHandler}
         id="phone"
       />

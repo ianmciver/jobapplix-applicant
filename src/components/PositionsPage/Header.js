@@ -37,27 +37,12 @@ const BusinessImage = styled.img`
   `};
 `;
 
-const PositionAndBusinessName = styled.div`
-  display: flex;
-  flex-direction: column;
-  color: ${props => props.theme.dark};
-  h1 {
-    font-size: 2.1rem;
-    text-transform: uppercase;
-  }
-
-  h2 {
-    font-size: 1.3rem;
-    text-transform: uppercase;
-    margin-top: 5px;
-  }
-`;
-
 const PositionTitle = styled.h2`
   font-size: 1.4rem;
   color: ${props => props.theme.title};
   ${media.desktop`
     font-size: 2rem;
+    max-width: 30%;
   `};
 `;
 

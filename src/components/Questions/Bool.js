@@ -40,36 +40,36 @@ const HiddenRadio = styled.input`
 `;
 
 const BoolQuestion = props => {
+  const { changeHandler, question, id, sub, value } = props;
   const trueBox = useRef(null);
   const falseBox = useRef(null);
+  const boolSelect = bool => e => {
+    changeHandler(question.group, id, bool, sub);
+  };
+  const questionText = sub ? question.sub_question : question.question;
   return (
     <BoolContainer>
-      <QuestionText>{props.question}</QuestionText>
+      <QuestionText>{questionText}</QuestionText>
       <div>
         <HiddenRadio
           type="radio"
-          name="true"
-          onChange={props.changeHandler(props.id, true, props.sub)}
-          checked={props.value}
+          onChange={boolSelect(true)}
+          checked={value}
           ref={trueBox}
-          name={props.id}
+          name={id}
         />
-        <AnswerButton
-          selected={props.value}
-          onClick={() => trueBox.current.click()}
-        >
+        <AnswerButton selected={value} onClick={() => trueBox.current.click()}>
           YES
         </AnswerButton>
         <HiddenRadio
           type="radio"
-          name="true"
-          onChange={props.changeHandler(props.id, false, props.sub)}
-          checked={!props.value}
+          onChange={boolSelect(false)}
+          checked={!value}
           ref={falseBox}
-          name={props.id}
+          name={id}
         />
         <AnswerButton
-          selected={!props.value}
+          selected={!value}
           onClick={() => falseBox.current.click()}
         >
           NO

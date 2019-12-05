@@ -42,6 +42,7 @@ const TextInput = styled.input`
 `;
 
 const Text = props => {
+  const { question, id, sub, validator, changeHandler } = props;
   const [textValue, setTextValue] = useState(props.value);
   const [labelVisible, setLabelVisible] = useState(false);
   useEffect(() => {
@@ -51,26 +52,32 @@ const Text = props => {
       setLabelVisible(false);
     }
   }, [textValue]);
+
+  const handleBlur = e => {
+    changeHandler(question.group, id, textValue, sub);
+  };
+
+  const questionText = sub ? question.sub_question : question.question;
   return (
     <TextContainer>
       <Label
         visible={props.labelVisible || labelVisible}
         large={props.labelVisible}
       >
-        {props.question}
+        {questionText}
       </Label>
       <TextInput
         type="text"
-        placeholder={props.labelVisible ? "" : props.question}
+        placeholder={props.labelVisible ? "" : questionText}
         value={textValue}
         onChange={e => {
-          if (props.validator) {
-            setTextValue(props.validator(e.target.value));
+          if (validator) {
+            setTextValue(validator(e.target.value));
           } else {
             setTextValue(e.target.value);
           }
         }}
-        onBlur={props.changeHandler(props.id, textValue)}
+        onBlur={handleBlur}
       />
     </TextContainer>
   );

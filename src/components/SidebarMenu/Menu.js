@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
-import styled, { css } from "styled-components";
+import { connect } from "react-redux";
+import styled from "styled-components";
 import { media } from "../../constants/mediaQueries";
 import MenuItem from "./MenuItem";
-import { PositionContext } from "../../context/PositionContext";
 
 const MenuContainer = styled.div`
   position: fixed;
@@ -24,7 +24,7 @@ const MenuContainer = styled.div`
     border-radius: 5px;
     align-self: flex-start;
     position: relative;
-    display: flex;
+    display: ${props => (props.visible ? "flex" : "none")};
     top: 120px;
     right: 20px;
     width: 250px;
@@ -47,7 +47,7 @@ const MenuHeader = styled.div`
 
 const MenuFooter = styled.div`
   background-color: ${props => props.theme.title};
-  padding: 10px 0;
+  padding: 5px 0;
   ${media.desktop`
     border-radius: 0 0 5px 5px;
   `};
@@ -59,18 +59,6 @@ const MenuBody = styled.div`
   overflow: scroll;
 `;
 
-const MenuLine = styled.div`
-  height: ${props => `${props.lineLength}px`};
-  position: absolute;
-  left: 30px;
-  border-left: 2px solid ${props => props.theme.jaBlue};
-  transition: height 500ms linear;
-  display: none;
-  ${media.desktop`
-    display: block;
-  `};
-`;
-
 const MenuItems = styled.div`
   display: flex;
   flex-direction: column;
@@ -79,8 +67,6 @@ const MenuItems = styled.div`
 `;
 
 const Menu = props => {
-  const positionContext = useContext(PositionContext);
-  let lineLength = Number(props.match.params.pageId) * 57 + 28.5;
   return (
     <MenuContainer visible={props.visible} menuOpen={props.open}>
       <MenuHeader>
@@ -88,14 +74,14 @@ const Menu = props => {
       </MenuHeader>
       <MenuBody>
         <MenuItems>
-          {positionContext.availableGroups.map((item, index) => {
+          {props.availableGroups.map((item, index) => {
             let selected = Number(props.match.params.pageId) !== index;
             return (
               <MenuItem
                 group={item}
                 key={item}
                 index={index}
-                visited={positionContext.visitedGroups[item] && selected}
+                visited={props.visitedGroups[item] && selected}
               />
             );
           })}
@@ -106,4 +92,7 @@ const Menu = props => {
   );
 };
 
-export default withRouter(Menu);
+export default connect(state => ({
+  availableGroups: state.position.availableGroups,
+  visitedGroups: state.position.visitedGroups
+}))(withRouter(Menu));

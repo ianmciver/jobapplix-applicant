@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { media } from "../constants/mediaQueries";
+
 const AppContainer = styled.div`
   min-height: 100vh;
   display: flex;

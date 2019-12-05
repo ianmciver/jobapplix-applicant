@@ -1,18 +1,17 @@
-import React, { useContext } from "react";
+import React from "react";
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-
-import ProgressBar from "./ProgressBar";
 import styled from "styled-components";
-import { PositionContext } from "../../context/PositionContext";
 
+import { API_URL } from "../../constants/urls";
 import { dark, jaBlue, white } from "../../constants/colors";
 import { media } from "../../constants/mediaQueries";
+import { parseAnswersForSubmission } from "../../helpers";
 
 import {
   GroupContainer,
   QuestionsContainer,
   ButtonsGroup,
-  Buttons,
   PreviousButton
 } from "./QuestionsGroup";
 
@@ -45,7 +44,23 @@ export const Instructions = styled.p`
 `;
 
 const Finish = props => {
-  const positionContext = useContext(PositionContext);
+  const submitApplication = e => {
+    let submissionAnswers = parseAnswersForSubmission(props.position);
+    fetch(
+      `${API_URL}/apps/application?pid=${props.position.details.id}&bid=${props.position.details.business_id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(submissionAnswers)
+      }
+    )
+      .then(() => {
+        props.history.push(props.nextPage);
+      })
+      .catch(err => {});
+  };
   return (
     <GroupContainer>
       <QuestionsContainer>
@@ -65,11 +80,7 @@ const Finish = props => {
         >
           &larr; PREVIOUS
         </PreviousButton>
-        <ApplyButton
-          color={white}
-          bgColor={jaBlue}
-          onClick={() => positionContext.submitApplication(props.nextPage)}
-        >
+        <ApplyButton color={white} bgColor={jaBlue} onClick={submitApplication}>
           SUBMIT &rarr;
         </ApplyButton>
       </ButtonsGroup>
@@ -77,4 +88,7 @@ const Finish = props => {
   );
 };
 
-export default withRouter(Finish);
+export default connect(
+  state => ({ position: state.position }),
+  null
+)(withRouter(Finish));
