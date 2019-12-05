@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
+
+import { addWorkHist } from "../../reduxSlices/PositionSlice";
 
 import WorkHistory from "./WorkHistory";
 
-import { PositionContext } from "../../context/PositionContext";
-
 import { jaBlue } from "../../constants/colors";
+import Plus from "../../static/icons/Plus";
 
 export const AddButton = styled.div`
   color: ${jaBlue};
@@ -14,49 +16,47 @@ export const AddButton = styled.div`
   align-items: center;
   font-size: 1.5rem;
   cursor: pointer;
+  border: 2px solid ${props => props.theme.jaBlue};
+  border-radius: 5px;
+  padding: 7px 5px;
+  background-color: ${props => props.theme.white};
   p {
     margin-left: 5px;
+  }
+
+  &:hover {
+    background-color: ${props => props.theme.jaBlue};
+    color: ${props => props.theme.white};
+
+    svg {
+      text {
+        fill: ${props => props.theme.white};
+      }
+    }
   }
 `;
 
 const WorkHistoryGroup = props => {
-  const positionContext = useContext(PositionContext);
   return (
     <>
-      {positionContext.workHist.map((workRef, index) => {
+      {props.workHist.map((workRef, index) => {
         return (
           <WorkHistory
             workRef={workRef}
             index={index}
             key={index}
-            updateWorkHist={positionContext.updateWorkHist}
+            updateWorkHist={props.updateWorkHist}
           />
         );
       })}
-      <AddButton onClick={e => positionContext.addWorkHist()}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="17"
-          height="35"
-          viewBox="0 0 17 35"
-        >
-          <text
-            transform="translate(0 28)"
-            fill={jaBlue}
-            fontSize="29"
-            fontFamily="Montserrat-Medium, Montserrat"
-            fontWeight="500"
-            letterSpacing="0.04em"
-          >
-            <tspan x="0" y="0">
-              +
-            </tspan>
-          </text>
-        </svg>
+      <AddButton onClick={e => props.addWorkHist()}>
+        <Plus fill={jaBlue} />
         <p>ADD POSITION</p>
       </AddButton>
     </>
   );
 };
 
-export default WorkHistoryGroup;
+export default connect(state => ({ workHist: state.position.workHist }), {
+  addWorkHist
+})(WorkHistoryGroup);

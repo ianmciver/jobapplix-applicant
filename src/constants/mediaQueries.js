@@ -1,6 +1,6 @@
 import { css } from "styled-components";
 const sizes = {
-  desktop: 1000
+  desktop: 1060
 };
 
 // Iterate through the sizes and create a media template

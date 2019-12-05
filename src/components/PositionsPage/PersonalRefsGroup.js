@@ -1,25 +1,22 @@
-import React, { useContext } from "react";
+import React from "react";
+import { connect } from "react-redux";
+
+import {} from "../../reduxSlices/PositionSlice";
 
 import PersonalRefs from "./PersonalRefs";
 
-import { PositionContext } from "../../context/PositionContext";
-
 const PersonalRefsGroup = props => {
-  const positionContext = useContext(PositionContext);
   return (
     <>
-      {positionContext.personalRefs.map((personalRef, index) => {
+      {props.personalRefs.map((personalRef, index) => {
         return (
-          <PersonalRefs
-            personalRef={personalRef}
-            index={index}
-            key={index}
-            updatePersonalRefs={positionContext.updatePersonalRefs}
-          />
+          <PersonalRefs personalRef={personalRef} index={index} key={index} />
         );
       })}
     </>
   );
 };
 
-export default PersonalRefsGroup;
+export default connect(state => ({
+  personalRefs: state.position.personalRefs
+}))(PersonalRefsGroup);

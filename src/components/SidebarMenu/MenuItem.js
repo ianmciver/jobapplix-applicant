@@ -1,64 +1,116 @@
 import React from "react";
-import { withRouter, Link } from "react-router-dom";
-import styled, { css } from "styled-components";
+import { withRouter } from "react-router-dom";
+import styled from "styled-components";
 
-import { positionsBorder, jaBlue, white, dark } from "../../constants/colors";
+import { media } from "../../constants/mediaQueries";
 
-const MenuItemContainer = styled.div`
-  padding: 20px 30px 20px 20px;
-  font-size: 1.2rem;
-  width: 100%;
-  position: relative;
-  cursor: pointer;
-  color: ${dark};
-  text-decoration: none;
-  ${props =>
-    props.selected &&
-    css`
-      background-color: ${jaBlue};
-      color: ${white};
-      box-shadow: 0 1px 3px ${positionsBorder};
-    `}
+import RightCaret from "../../static/icons/RightCaret";
+import Checkmark from "../../static/icons/Checkmark";
+
+const Circle = styled.div`
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-right: 20px;
+  border: 1px solid transparent;
+  background-color: ${props =>
+    props.visited ? props.theme.jaBlue : "transparent"};
+
+  ${media.desktop`
+    width: 17px;
+    height: 17px;
+  `}
 `;
 
-const Pointer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 206px;
-  border-left: 26px solid ${jaBlue};
-  border-top: 26px solid transparent;
-  border-bottom: 26px solid transparent;
+const Dot = styled.div`
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background-color: ${props =>
+    props.selected ? props.theme.white : props.theme.subTitle};
+  display: ${props => (props.visited ? "none" : "block")};
+`;
+
+const Title = styled.span`
+  /* margin-right: 15px; */
+`;
+
+const MenuItemContainer = styled.div`
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 2.2rem;
+  background: ${props => (props.selected ? props.theme.jaBlue : "transparent")};
+  color: ${props =>
+    props.selected
+      ? props.theme.white
+      : props.visited
+      ? props.theme.jaBlue
+      : props.theme.subTitle};
+  cursor: pointer;
+
+  &:hover {
+    ${media.desktop`
+      ${Title} {
+        text-decoration: underline;
+      }    
+    `}
+  }
+
+  ${media.desktop`
+    font-size: 1.5rem;`}
+`;
+
+const CircleTitleContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const titles = {
-  basic: "BASIC INFORMATION",
-  position: "POSITION & AVAILABILITY",
-  history: "EMPLOYMENT HISTORY",
-  general: "GENERAL INFORMATION",
-  skills: "RELEVANT SKILLS",
-  other: "OTHER INFORMATION",
-  workHistory: "WORK HISTORY",
-  personalRefs: "PERSONAL REFERENCES",
-  eduHistory: "EDUCATIONAL HISTORY",
-  availability: "AVAILABILITY",
-  finish: "SAVE & SUBMIT",
-  custom: "POSITION SPECIFIC"
+  basic: "Basic Information",
+  position: "Position & Availability",
+  history: "Employment History",
+  general: "General Information",
+  skills: "Relevant Skills",
+  other: "Other Information",
+  workHistory: "Work History",
+  personalRefs: "Personal References",
+  eduHistory: "Educational History",
+  availability: "Availability",
+  finish: "Save & Submit",
+  custom: "Position Specific",
+  complete: "Complete"
 };
 
 const MenuItem = props => {
+  const selected = Number(props.match.params.pageId) === props.index;
   return (
-    <Link
-      to={`/${props.match.params.business}/${props.match.params.position}/${
-        props.index
-      }`}
-      style={{ textDecoration: "none" }}
+    <MenuItemContainer
+      selected={selected}
+      visited={props.visited}
+      onClick={e =>
+        props.history.push(
+          `/${props.match.params.business}/${props.match.params.position}/${props.index}`
+        )
+      }
     >
-      <MenuItemContainer selected={props.selected}>
-        {titles[props.group]}
-        {props.selected && <Pointer />}
-      </MenuItemContainer>
-    </Link>
+      <CircleTitleContainer>
+        <Circle visited={props.visited}>
+          <Dot visited={props.visited} selected={selected} />
+          {props.visited && <Checkmark />}
+        </Circle>
+        <Title visited={props.visited}>{titles[props.group]}</Title>
+      </CircleTitleContainer>
+      {selected && <RightCaret />}
+    </MenuItemContainer>
   );
 };
 
 export default withRouter(MenuItem);
+
+// To see if the page has been visited
+// To see if there are any errors on the visited page

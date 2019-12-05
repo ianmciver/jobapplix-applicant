@@ -132,37 +132,39 @@ const GlobalStyles = createGlobalStyle`
   }
 
   @font-face {
-    font-family: "Montserrat";
-    font-style: normal;
-    font-weight: 300;
-    src: local("Montserrat Light"), local("Montserrat-Light"),
-      url("/static/fonts/montserrat_light.ttf") format("truetype");
-  }
-  @font-face {
-    font-family: "Montserrat";
+    font-family: "Cereal";
     font-style: normal;
     font-weight: 400;
-    src: local("Montserrat Regular"), local("Montserrat-Regular"),
-      url("/static/fonts/montserrat.ttf") format("truetype");
+    src: local('AirbnbCereal-Book') url("../static/fonts/AirbnbCerealBook.tff") format("truetype");
   }
+
   @font-face {
-    font-family: "Montserrat";
-    font-style: normal;
+    font-family: "Cereal";
+    font-style: bold;
     font-weight: 700;
-    src: local("Montserrat Bold"), local("Montserrat-Bold"),
-      url("/static/fonts/montserrat_bold.ttf") format("truetype");
+    src: local('AirbnbCereal-Extra-Bold') url("../static/fonts/AirbnbCerealExtraBold.tff") format("truetype");
+  }
+
+  @font-face {
+    font-family: "Cereal";
+    font-style: light;
+    font-weight: 300;
+    src: local('AirbnbCereal-Light') url("../static/fonts/AirbnbCerealLight.tff") format("truetype");
   }
 
   html {
     font-size: 62.5%;
-    color: #2b2d2d;
-    font-family: "Montserrat", sans-serif;
+    color: #43413f;
+    font-family: "Cereal", sans-serif;
   }
 
   body,
   * {
     box-sizing: border-box;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Cereal", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-variant-ligatures: common-ligatures;
   }
 `;
 

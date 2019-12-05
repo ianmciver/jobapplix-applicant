@@ -9,8 +9,7 @@ const Questions = props => {
           <Question
             key={question.id}
             question={question}
-            value={props.answersGroup.group[question.id]}
-            changeHandler={props.answersGroup.changeHandler}
+            value={props.answersGroup[question.id]}
             showLabel={!(props.group === "basic")}
           />
         );

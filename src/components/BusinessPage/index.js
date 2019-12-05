@@ -1,60 +1,76 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useCallback } from "react";
+import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { fetch } from "whatwg-fetch";
-import ErrorPage from "../FourOhFour";
 
+import ErrorPage from "../FourOhFour";
+import { loadBusiness } from "../../reduxSlices/BusinessSlice";
 import { API_URL } from "../../constants/urls";
 import { checkStatus } from "../../helpers";
 
-import { BusinessContext } from "../../context/BusinessContext";
-
 import App from "../App";
 import Header from "../BusinessPage/Header";
-import PositionsList from "../BusinessPage/PositionsList";
+import PositionsList, {
+  PositionsListContainer
+} from "../BusinessPage/PositionsList";
 import Footer from "../Footer";
 
 const BusinessPage = props => {
-  const businessContext = useContext(BusinessContext);
+  const { business, history, match, loadBusiness, error } = props;
+  const { loaded } = business;
 
-  const getInitalBusinessData = async () => {
-    if (!businessContext.business.loaded) {
+  const getInitalBusinessData = useCallback(async () => {
+    if (!loaded) {
       try {
         const res = await fetch(
-          `${API_URL}/businesses?url=${props.match.params.business}`
+          `${API_URL}/businesses?url=${match.params.business}`
         );
         await checkStatus(res);
         const data = await res.json();
-        businessContext.loadBusiness(data.business, data.positions);
+        loadBusiness({
+          business: data.business,
+          positions: data.positions
+        });
       } catch (err) {
-        props.history.replace("/404");
+        console.log("ERROR:", err);
+        history.replace("/404");
       }
     } else {
       return;
     }
-  };
+  }, [loaded, history, loadBusiness, match]);
 
   useEffect(() => {
     getInitalBusinessData();
-  }, []);
+  }, [getInitalBusinessData]);
 
-  if (props.error) {
+  if (error) {
     return <ErrorPage />;
   } else {
     return (
       <App>
         <Helmet>
-          <title>{businessContext.business.name}</title>
+          <title>{business.name}</title>
         </Helmet>
 
-        <Header business={businessContext.business} />
-        <PositionsList
-          positions={businessContext.positions}
-          businessName={props.match.params.business}
-        />
+        <Header business={business} />
+        {business.active ? (
+          <PositionsList
+            positions={business.positions}
+            businessName={match.params.business}
+          />
+        ) : (
+          <PositionsListContainer />
+        )}
         <Footer />
       </App>
     );
   }
 };
 
-export default BusinessPage;
+export default connect(
+  state => {
+    return { business: state.business };
+  },
+  { loadBusiness }
+)(BusinessPage);
